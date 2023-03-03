@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Users (
-  userID       INT PRIMARY KEY,
+  userID       INT PRIMARY KEY NOT NULL,
   email        TEXT UNIQUE NOT NULL,
   username     TEXT UNIQUE NOT NULL,
   passwordHash TEXT NOT NULL,
@@ -7,13 +7,13 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 
 CREATE TABLE IF NOT EXISTS CryptoCurrencies (
-  cryptoID   INT PRIMARY KEY,
+  cryptoID   INT PRIMARY KEY NOT NULL,
   cryptoType TEXT UNIQUE NOT NULL,
   price      DECIMAL(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS Transactions (
-  transactionID INT PRIMARY KEY,
+  transactionID INT PRIMARY KEY NOT NULL,
   userID INT,
   cryptoID INT,
   type ENUM('buy', 'sell'),
