@@ -3,13 +3,15 @@ CREATE TABLE IF NOT EXISTS Users (
   email        TEXT UNIQUE NOT NULL,
   username     TEXT UNIQUE NOT NULL,
   passwordHash TEXT NOT NULL,
-  balance      DECIMAL(10, 2)
+  balance      DECIMAL(10, 2),
+  profitOrLoss       DECIMAL(10, 2),
 );
 
 CREATE TABLE IF NOT EXISTS CryptoCurrencies (
   cryptoID   INT PRIMARY KEY NOT NULL,
   cryptoType TEXT UNIQUE NOT NULL,
-  price      DECIMAL(10, 2)
+  price      DECIMAL(10, 2),
+  prePrice   DECIMAL(10, 2),
 );
 
 CREATE TABLE IF NOT EXISTS Transactions (
@@ -20,28 +22,29 @@ CREATE TABLE IF NOT EXISTS Transactions (
   amount DECIMAL(10, 2),
   price DECIMAL(10, 2),
   date DATETIME,
-  FOREIGN KEY (userID) REFERENCES Users(userID),
+  FOREIGN KEY (userID) REFERENCES Users(userID, profitOrLoss),
   FOREIGN KEY (cryptoID) REFERENCES CryptoCurrencies(cryptoID)
 );
 
 CREATE VIEW Leaderboard AS
-  SELECT userID, balance
-  FROM Users
-  ORDER BY balance DESC;
+  SELECT userID, profitOrLoss, date
+  WHERE cryptoID
+  FROM Transactions
+  ORDER BY profitOrLoss DESC;
 
 -- Insert initial data into Users Table
-INSERT INTO Users (userID, username, email, passwordHash, balance)
+INSERT INTO Users (userID, username, email, passwordHash, balance, profitOrLoss)
 VALUES
-  (1, 'user1', 'user1@example.com', 'abcdefg', 10000.00),
-  (2, 'user2', 'user2@example.com', 'hijklmn', 10000.00),
-  (3, 'user3', 'user3@example.com', 'opqrstu', 10000.00);
+  (1, 'user1', 'user1@example.com', 'abcdefg', 10000.00, 0.00),
+  (2, 'user2', 'user2@example.com', 'hijklmn', 10000.00, 0.00),
+  (3, 'user3', 'user3@example.com', 'opqrstu', 10000.00, 0.00);
 
 -- Insert initial data into Cryptocurrencies Table
-INSERT INTO CryptoCurrencies (cryptoID, cryptoType, price)
+INSERT INTO CryptoCurrencies (cryptoID, cryptoType, price, prePrice)
 VALUES
-  (1, 'Bitcoin', 50000.00),
-  (2, 'Ethereum', 1500.00),
-  (3, 'Dogecoin', 0.05);
+  (1, 'Bitcoin', 50000.00, 45000.00),
+  (2, 'Ethereum', 1500.00, 1800.00),
+  (3, 'Dogecoin', 0.05, 0.03);
 
 -- Insert some initial transactions into Transactions Table
 INSERT INTO transactions (transactionID, userID, cryptoID, type, amount, price, date)
