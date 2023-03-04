@@ -2,7 +2,7 @@ import sqlite3 from 'sqlite3';
 
 // create a new database connection using the Database class
 // provided by the sqlite3 module
-const con = new sqlite3.Database("schema.db");
+const con = new sqlite3.Database(`schema.db`);
 const createUserTableQuery = `
 CREATE TABLE IF NOT EXISTS Users (
   userID       INTEGER PRIMARY KEY,
