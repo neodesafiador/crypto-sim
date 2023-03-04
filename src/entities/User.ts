@@ -30,14 +30,14 @@ export class User {
   loss: number;
 }
 
-export class CryptoCurrency {
-  @Column({ unique: true })
-  type: string;
+// export class CryptoCurrency {
+//   @Column({ unique: true })
+//   type: string;
 
-  @Column({ unique: true })
-  value: number;
+//   @Column({ unique: true })
+//   value: number;
 
-  @Column({ unique: true })
-  preValue: number;
-}
+//   @Column({ unique: true })
+//   preValue: number;
+// }
 
