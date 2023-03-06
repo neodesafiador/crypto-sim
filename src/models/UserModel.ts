@@ -14,6 +14,9 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
   let newUser = new User();
   newUser.email = email;
   newUser.passwordHash = passwordHash;
+  newUser.balance = 100;
+  newUser.prevBalance = 100;
+  newUser.profit = 0;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access

@@ -13,4 +13,13 @@ export class User {
 
   @Column({ default: false })
   verifiedEmail: boolean;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  balance: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  prevBalance: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  profit: number;
 }
