@@ -50,28 +50,10 @@ async function getUserById(userId: string): Promise<User[] | null> {
   const user = await userRepository
     .createQueryBuilder('user')
     .where({ userId })
-    .select(['user.email', 'user.profileViews', 'user.joined0n', 'user.userId'])
+    .select(['user.email', 'user.joined0n', 'user.userId'])
     .getMany();
 
   return user;
 }
 
-async function getViralUsers(): Promise<User[]> {
-  const viralUsers = await userRepository
-    .createQueryBuilder('user')
-    .where('profileViews >= :viralAmount', { viralAmount: 1000 })
-    .select(['user.email', 'user.profileViews', 'user.userId'])
-    .getMany();
-
-  return viralUsers;
-} // User[] : returning array of the user.
-
-export {
-  allUserData,
-  addUser,
-  getUserByEmail,
-  getUserById,
-  getAllUsers,
-  getAllUnverifiedUsers,
-  getViralUsers,
-};
+export { allUserData, addUser, getUserByEmail, getUserById, getAllUsers, getAllUnverifiedUsers };
