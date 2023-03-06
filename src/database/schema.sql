@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Users (
-  --userID       INT PRIMARY KEY NOT NULL,
+  userID       INT PRIMARY KEY NOT NULL,
   email        TEXT UNIQUE NOT NULL,
   passwordHash TEXT NOT NULL,
   balance      DECIMAL(10, 2),
@@ -32,11 +32,11 @@ CREATE TABLE IF NOT EXISTS Users (
 --   ORDER BY profitOrLoss DESC;
 
 -- -- Insert initial data into Users Table
--- INSERT INTO Users (userID, username, email, passwordHash, balance, profitOrLoss)
--- VALUES
---   (1, 'user1', 'user1@example.com', 'abcdefg', 10000.00, 0.00),
---   (2, 'user2', 'user2@example.com', 'hijklmn', 10000.00, 0.00),
---   (3, 'user3', 'user3@example.com', 'opqrstu', 10000.00, 0.00);
+INSERT INTO Users (userID, email, passwordHash, balance, profitOrLoss)
+VALUES
+  (1, 'user1@example.com', 'abcdefg', 10000.00, 0.00),
+  (2, 'user2@example.com', 'hijklmn', 10000.00, 0.00),
+  (3, 'user3@example.com', 'opqrstu', 10000.00, 0.00);
 
 -- -- Insert initial data into Cryptocurrencies Table
 -- INSERT INTO CryptoCurrencies (cryptoID, cryptoType, price, prePrice)
