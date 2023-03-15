@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation } from 'typeorm';
+import { CryptoCurrency } from './CryptoCurrency';
 
 @Entity()
 export class User {
@@ -22,4 +23,7 @@ export class User {
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   profit: number;
+
+  @OneToMany(() => CryptoCurrency, (currency) => currency.user, { cascade: ['insert', 'update'] })
+  currencies: Relation<CryptoCurrency>[];
 }
