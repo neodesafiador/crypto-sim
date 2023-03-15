@@ -1,3 +1,5 @@
+
+
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
@@ -15,6 +17,7 @@
   ],
   "rules": {
     "@typescript-eslint/prefer-as-const": "error",
+    "@typescript-eslint/return-await": "off",
     "no-console": "off",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "prettier/prettier": "error",
