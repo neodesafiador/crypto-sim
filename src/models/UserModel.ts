@@ -14,9 +14,9 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
   let newUser = new User();
   newUser.email = email;
   newUser.passwordHash = passwordHash;
-  newUser.balance = 100;
-  newUser.prevBalance = 100;
-  newUser.profit = 0;
+  // newUser.balance = 100;
+  // newUser.prevBalance = 100;
+  // newUser.profit;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access
@@ -56,4 +56,21 @@ async function getUserById(userId: string): Promise<User[] | null> {
   return user;
 }
 
-export { allUserData, addUser, getUserByEmail, getUserById, getAllUsers, getAllUnverifiedUsers };
+async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ email: newEmail })
+    .where({ userId })
+    .execute();
+}
+
+export {
+  allUserData,
+  addUser,
+  getUserByEmail,
+  getUserById,
+  getAllUsers,
+  getAllUnverifiedUsers,
+  updateEmailAddress,
+};

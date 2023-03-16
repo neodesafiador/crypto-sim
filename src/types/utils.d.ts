@@ -4,9 +4,9 @@ type DatabaseConstraintError = {
   message?: string;
 };
 
-type AuthRequest = {
-  email: string;
-  // firstName: string;
-  // lastName: string;
-  password: string;
-};
+// type AuthRequest = {
+//   email: string;
+//   // firstName: string;
+//   // lastName: string;
+//   password: string;
+// };
