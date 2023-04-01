@@ -50,7 +50,7 @@ async function getUserById(userId: string): Promise<User[] | null> {
   const user = await userRepository
     .createQueryBuilder('user')
     .where({ userId })
-    .select(['user.email', 'user.joined0n', 'user.userId'])
+    .select(['user.email', 'user.joined0n', 'user.userId', 'user.balance'])
     .getMany();
 
   return user;
@@ -65,6 +65,15 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
     .execute();
 }
 
+async function updateUserBalance(user: User, totalCost: number): Promise<User> {
+  const updatedUser = user;
+  updatedUser.prevBalance = user.balance;
+  updatedUser.balance -= totalCost;
+  updatedUser.profit += totalCost - user.prevBalance;
+
+  return updatedUser;
+}
+
 export {
   allUserData,
   addUser,
@@ -73,4 +82,5 @@ export {
   getAllUsers,
   getAllUnverifiedUsers,
   updateEmailAddress,
+  updateUserBalance,
 };
