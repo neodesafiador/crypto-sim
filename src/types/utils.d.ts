@@ -10,3 +10,8 @@ type DatabaseConstraintError = {
 //   // lastName: string;
 //   password: string;
 // };
+
+type CryptoRequest = {
+  cryptoType: string;
+  quantity: number;
+};
