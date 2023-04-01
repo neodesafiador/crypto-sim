@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/style.css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>This shows up in the browser tab</title>
+
+head
+    add the meta headers shown in the slides
+    the title tag
+        with the text "Create an account | Crypto Currency Trade"
+
+body
+    div with the class "formCard"
+        section with the class "form-container"
+            div
+                h1 with the classes "title gradient-text"
+                    with the text "Crypto Currency Trade"
+                h2
+                    with the text "Create an Account"
+
+            div with the class "form"
+                form with the appropriate method and action attributes for the endpoint POST /api/users
+                    label for "username"
+                    input with name & id set to "username", class of "text", placeholder set to "Username", type of "text", must be required
+
+                    label for "password"
+                    input with name, id, type, class set to "password" and the placeholder set to "Password", must be required
+
+                    button with the class "btn"
+                        with the text "Create Account"

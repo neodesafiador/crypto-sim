@@ -164,7 +164,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
   if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
-    res.sendStatus(403); // 403 Forbidden
+    res.sendStatus(403).json('Not loggedIn or Not authorized User'); // 403 Forbidden
     return;
   }
 
@@ -174,7 +174,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const user = await getUserById(targetUserId);
 
   if (!user) {
-    res.sendStatus(404); // 404 Not Found
+    res.sendStatus(404).json('User not found'); // 404 Not Found
     return;
   }
 
