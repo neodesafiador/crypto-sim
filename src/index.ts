@@ -6,7 +6,7 @@ import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn, updateUserEmail } from './controllers/UserController';
-import { addCryptoCurrency } from './controllers/CryptoController';
+import { addCryptoCurrency, buyCryptoCurrency } from './controllers/CryptoController';
 
 const app: Express = express();
 
@@ -35,6 +35,7 @@ app.post('/api/login', logIn); // Log in to an account
 app.post('/api/addCryptoCurrency', addCryptoCurrency);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
+app.post('/api/buyCrypto', buyCryptoCurrency);
 app.post('/api/users/:targetUserId/email', updateUserEmail);
 
 app.listen(PORT, () => {

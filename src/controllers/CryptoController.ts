@@ -1,14 +1,8 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { updateUserBalance, getUserByID } from '../models/UserModel';
-// import { AppDataSource } from '../dataSource';
-// import { User } from '../entities/User';
-// import { CryptoCurrency } from '../entities/CryptoCurrency';
-import { updateCryptoBalance, getCryptoByType, addCrypto } from '../models/CryptoModel';
-// import { addCrypto } from '../models/CryptoModel';
-// getCryptoByType, getCurrenciesByUserId
-// const userRepository = AppDataSource.getRepository(User);
-// const cryptoRepository = AppDataSource.getRepository(CryptoCurrency);
+import { updateBuyUserBalance, getUserByID } from '../models/UserModel';
+
+import { updateBuyCryptoBalance, getCryptoByType, addCrypto } from '../models/CryptoModel';
 
 async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   const { authenticatedUser } = req.session;
@@ -43,26 +37,26 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
       res.sendStatus(401).json('User is Not Logged In');
       return;
     }
+    if (!crypto) {
+      res.sendStatus(403).json('Crypto Not Found');
+      return;
+    }
 
     // Calculate total cost of crypto being bought
     const totalCost = quantity * crypto.value;
 
     // Check if user has enough money to buy
     if (user.balance < totalCost) {
-      res.sendStatus(401).json('User does not have enough money to buy');
+      res.sendStatus(402).json('User does not have enough money to buy');
       console.error('User does not have enough money to buy');
       return;
     }
 
     // Update user balance and profit
-    updateUserBalance(user, totalCost);
+    updateBuyUserBalance(user, totalCost);
 
     // Update user crypto balance
-    updateCryptoBalance(crypto, quantity);
-
-    // Save changes to database
-    // await userRepository.save(user);
-    // await cryptoRepository.save(crypto);
+    updateBuyCryptoBalance(crypto, quantity);
 
     console.log(`Bought ${quantity} ${crypto.cryptoType} for $${totalCost}`);
     res.sendStatus(200);
@@ -76,3 +70,4 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
 // TODO: function for sell crypto
 
 export { addCryptoCurrency, buyCryptoCurrency };
+
