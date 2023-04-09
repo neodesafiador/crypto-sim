@@ -1,33 +1,31 @@
-<link rel="stylesheet" href="/css/style.css" />
 <!DOCTYPE html>
 <html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>This shows up in the browser tab</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Create an account | Crypto Currency Trade</title>
+  </head>
+  <body>
+    <div class="formCard">
+      <section class="form-container">
+        <div>
+          <h1 class="title gradient-text">Crypto Currency Trade</h1>
+          <h2>Create an Account</h2>
+        </div>
+        <div class="form">
+          <form action="/api/users" method="post">
+            <label for="username">Username</label>
+            <input name="username" id="username" class="text" type="text" placeholder="Username" required />
 
-head
-    add the meta headers shown in the slides
-    the title tag
-        with the text "Create an account | Crypto Currency Trade"
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="password" placeholder="Password" required />
 
-body
-    div with the class "formCard"
-        section with the class "form-container"
-            div
-                h1 with the classes "title gradient-text"
-                    with the text "Crypto Currency Trade"
-                h2
-                    with the text "Create an Account"
-
-            div with the class "form"
-                form with the appropriate method and action attributes for the endpoint POST /api/users
-                    label for "username"
-                    input with name & id set to "username", class of "text", placeholder set to "Username", type of "text", must be required
-
-                    label for "password"
-                    input with name, id, type, class set to "password" and the placeholder set to "Password", must be required
-
-                    button with the class "btn"
-                        with the text "Create Account"
+            <button class="btn">Create Account</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
