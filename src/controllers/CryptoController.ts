@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { getUserById, updateUserBalance, getUserByID } from '../models/UserModel';
+import { updateUserBalance, getUserByID } from '../models/UserModel';
 // import { AppDataSource } from '../dataSource';
 // import { User } from '../entities/User';
 // import { CryptoCurrency } from '../entities/CryptoCurrency';
@@ -32,7 +32,7 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
   try {
     const { userId } = req.session.authenticatedUser;
     const { cryptoType, quantity } = req.body as CryptoRequest;
-    const user = await getUserById(userId);
+    const user = await getUserByID(userId);
     const crypto = await getCryptoByType(cryptoType);
 
     if (!user) {
@@ -61,8 +61,8 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
     updateCryptoBalance(crypto, quantity);
 
     // Save changes to database
-    await userRepository.save(user);
-    await cryptoRepository.save(crypto);
+    // await userRepository.save(user);
+    // await cryptoRepository.save(crypto);
 
     console.log(`Bought ${quantity} ${crypto.cryptoType} for $${totalCost}`);
     res.sendStatus(200);

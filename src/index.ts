@@ -1,6 +1,8 @@
 import './config'; // Load environment variables
 import 'express-async-errors'; // Enable default error handling for async errors
+
 import express, { Express } from 'express';
+
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn, updateUserEmail } from './controllers/UserController';
@@ -8,10 +10,11 @@ import { addCryptoCurrency } from './controllers/CryptoController';
 
 const app: Express = express();
 
-// const { PORT } = process.env;
 const { PORT, COOKIE_SECRET } = process.env;
 
 const SQLiteStore = connectSqlite3(session);
+
+app.use(express.static('public', { extensions: ['html'] }));
 
 app.use(
   session({
@@ -24,8 +27,8 @@ app.use(
   })
 );
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
