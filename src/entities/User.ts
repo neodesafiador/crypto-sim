@@ -24,6 +24,12 @@ export class User {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   profit: number;
 
+  cryptoOwned: number[];
+
+  constructor() {
+    this.cryptoOwned = [];
+  }
+
   @OneToMany(() => CryptoCurrency, (currency) => currency.user, { cascade: ['insert', 'update'] })
   currencies: Relation<CryptoCurrency>[];
 }

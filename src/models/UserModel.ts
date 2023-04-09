@@ -58,9 +58,14 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
     .execute();
 }
 
-async function updateBuyUserBalance(user: User, totalCost: number): Promise<User> {
+async function updateBuyUserBalance(
+  user: User,
+  totalCost: number,
+  quantity: number
+): Promise<User> {
   const updatedUser = user;
   updatedUser.balance -= totalCost;
+  updatedUser.cryptoOwned.push(quantity);
 
   await userRepository.save(updatedUser);
 

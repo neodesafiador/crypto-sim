@@ -53,10 +53,10 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
     }
 
     // Update user balance and profit
-    updateBuyUserBalance(user, totalCost);
+    updateBuyUserBalance(user, totalCost, quantity);
 
     // Update user crypto balance
-    updateBuyCryptoBalance(crypto, quantity);
+    updateBuyCryptoBalance(crypto);
 
     console.log(`Bought ${quantity} ${crypto.cryptoType} for $${totalCost}`);
     res.sendStatus(200);
@@ -70,4 +70,3 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
 // TODO: function for sell crypto
 
 export { addCryptoCurrency, buyCryptoCurrency };
-
