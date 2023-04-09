@@ -2,14 +2,13 @@ import { Request, Response } from 'express';
 import argon2 from 'argon2';
 // import axios from 'axios';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail, getUserById, updateEmailAddress } from '../models/UserModel';
+import { addUser, getUserByEmail, getUserByID, updateEmailAddress } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 // import { CryptoCurrency } from '../entities/CryptoCurrency';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body as AuthRequest;
-  // const { email, firstName, lastName, password } = req.body as AuthRequest;
-  // Hash the password
+
   const passwordHash = await argon2.hash(password);
   console.log(passwordHash);
 
@@ -171,7 +170,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { email } = req.body as { email: string };
 
   // Get the user account
-  const user = await getUserById(targetUserId);
+  const user = await getUserByID(targetUserId);
 
   if (!user) {
     res.sendStatus(404).json('User not found'); // 404 Not Found
