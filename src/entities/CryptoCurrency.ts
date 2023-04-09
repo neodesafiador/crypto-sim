@@ -1,16 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Relation } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, Relation } from 'typeorm';
 import { User } from './User';
 
 @Entity()
 export class CryptoCurrency {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   cryptoType: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
+  // @Column({ unique: true })
+  // @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column()
   value: number;
 
   // @Column({ unique: true })
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   preValue: number;
 
   @Column()

@@ -11,7 +11,7 @@ type DatabaseConstraintError = {
 //   password: string;
 // };
 
-type CryptoRequest = {
-  cryptoType: string;
-  quantity: number;
-};
+// type CryptoRequest = {
+//   cryptoType: string;
+//   quantity: number;
+// };
