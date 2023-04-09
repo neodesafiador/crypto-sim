@@ -6,10 +6,11 @@ export class CryptoCurrency {
   @PrimaryGeneratedColumn()
   cryptoType: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
   value: number;
 
-  @Column({ unique: true })
+  // @Column({ unique: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
   preValue: number;
 
   @Column()
