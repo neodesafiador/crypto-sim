@@ -74,6 +74,8 @@ async function updateUserBalance(user: User, totalCost: number): Promise<User> {
   return updatedUser;
 }
 
+// TODO: async function updateUserDate(user: USer)for user Rank
+
 export {
   allUserData,
   addUser,

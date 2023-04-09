@@ -4,10 +4,26 @@ import { getUserById, updateUserBalance } from '../models/UserModel';
 import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
 import { CryptoCurrency } from '../entities/CryptoCurrency';
-import { updateCryptoBalance, getCryptoByType } from '../models/CryptoModel';
+import { updateCryptoBalance, getCryptoByType, addCrypto } from '../models/CryptoModel';
 
 const userRepository = AppDataSource.getRepository(User);
 const cryptoRepository = AppDataSource.getRepository(CryptoCurrency);
+
+async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
+  // const { email, password } = req.body as AuthRequest;
+  const { cryptoType, value } = req.body as CryptoAuth;
+
+  try {
+    const newCrypto = await addCrypto(cryptoType, value);
+
+    console.log(newCrypto);
+    res.sendStatus(201);
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+  }
+}
 
 async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
   try {
@@ -56,4 +72,4 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
 
 // TODO: function for sell crypto
 
-export { buyCryptoCurrency };
+export { buyCryptoCurrency, addCryptoCurrency };
