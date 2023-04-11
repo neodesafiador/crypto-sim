@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import argon2 from 'argon2';
 // import axios from 'axios';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail, getUserByID, updateEmailAddress } from '../models/UserModel';
+import { addUser, getUserByEmail } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 // import { CryptoCurrency } from '../entities/CryptoCurrency';
 
@@ -73,6 +73,12 @@ async function logIn(req: Request, res: Response): Promise<void> {
   res.redirect('/crypto');
 }
 
+async function logOut(req: Request, res: Response): Promise<void> {
+  req.session.isLoggedIn = false;
+
+  res.redirect('/login');
+}
+
 // async function printCryptoCurrencies(): Promise<void> {
 //   let response: any = null;
 
@@ -132,34 +138,4 @@ async function logIn(req: Request, res: Response): Promise<void> {
 //   console.log(data);
 // })();
 
-async function updateUserEmail(req: Request, res: Response): Promise<void> {
-  const { targetUserId } = req.params as UserIdParam;
-  const { isLoggedIn, authenticatedUser } = req.session;
-
-  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
-    res.sendStatus(403).json('Not loggedIn or Not authorized User');
-    return;
-  }
-
-  const { email } = req.body as { email: string };
-
-  const user = await getUserByID(targetUserId);
-
-  if (!user) {
-    res.sendStatus(404).json('User not found'); // 404 Not Found
-    return;
-  }
-
-  try {
-    await updateEmailAddress(targetUserId, email);
-  } catch (err) {
-    console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.status(500).json(databaseErrorMessage);
-    return;
-  }
-
-  res.sendStatus(200);
-}
-
-export { registerUser, logIn, updateUserEmail };
+export { registerUser, logIn, logOut };
