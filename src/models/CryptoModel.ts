@@ -44,10 +44,14 @@ async function getCurrenciesByUserId(userId: string): Promise<CryptoCurrency[]> 
   return crypto;
 }
 
-async function updateBuyCryptoBalance(crypto: CryptoCurrency): Promise<CryptoCurrency> {
+async function updateBuyCryptoBalance(
+  crypto: CryptoCurrency,
+  quantity: number
+): Promise<CryptoCurrency> {
   const updatedCrypto = crypto;
   const now = new Date();
   updatedCrypto.preValue = crypto.value;
+  updatedCrypto.quantity += quantity;
   updatedCrypto.boughtOn = now;
   console.log(`Quantity: ${updatedCrypto.quantity}`);
 
@@ -55,5 +59,7 @@ async function updateBuyCryptoBalance(crypto: CryptoCurrency): Promise<CryptoCur
 
   return updatedCrypto;
 }
+
+// TODO:function for value of crypto owned. ( cryto amount * value) can use for rank leaderboard, buy and sell.
 
 export { allCryptoData, updateBuyCryptoBalance, getCryptoByType, addCrypto, getCurrenciesByUserId };

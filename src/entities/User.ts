@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation } from 'typeorm';
 import { CryptoCurrency } from './CryptoCurrency';
+import { Wallet } from './Wallet';
 
 @Entity()
 export class User {
@@ -24,12 +25,9 @@ export class User {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   profit: number;
 
-  cryptoOwned: number[];
-
-  constructor() {
-    this.cryptoOwned = [];
-  }
-
   @OneToMany(() => CryptoCurrency, (currency) => currency.user, { cascade: ['insert', 'update'] })
   currencies: Relation<CryptoCurrency>[];
+
+  @OneToMany(() => Wallet, (wallet) => wallet.user, { cascade: ['insert', 'update'] })
+  wallets: Relation<Wallet>[];
 }

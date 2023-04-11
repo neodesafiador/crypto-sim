@@ -5,6 +5,7 @@ import express, { Express } from 'express';
 
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
+
 import { registerUser, logIn, logOut } from './controllers/UserController';
 import { addCryptoCurrency, buyCryptoCurrency } from './controllers/CryptoController';
 

@@ -3,15 +3,3 @@ type DatabaseConstraintError = {
   columnName?: string;
   message?: string;
 };
-
-// type AuthRequest = {
-//   email: string;
-//   // firstName: string;
-//   // lastName: string;
-//   password: string;
-// };
-
-// type CryptoRequest = {
-//   cryptoType: string;
-//   quantity: number;
-// };
