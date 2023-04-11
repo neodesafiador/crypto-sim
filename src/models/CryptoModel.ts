@@ -49,6 +49,7 @@ async function updateBuyCryptoBalance(crypto: CryptoCurrency): Promise<CryptoCur
   const now = new Date();
   updatedCrypto.preValue = crypto.value;
   updatedCrypto.boughtOn = now;
+  console.log(`Quantity: ${updatedCrypto.quantity}`);
 
   await cryptoRepository.save(updatedCrypto);
 
