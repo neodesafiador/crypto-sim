@@ -7,7 +7,8 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 
 import { registerUser, logIn, logOut } from './controllers/UserController';
-import { addCryptoCurrency, buyCryptoCurrency } from './controllers/CryptoController';
+import { addCryptoCurrency } from './controllers/CryptoController';
+import { BuyCrypto, sellCrypto } from './controllers/WalletController';
 
 const app: Express = express();
 
@@ -37,7 +38,8 @@ app.get('/api/login', logOut);
 app.post('/api/addCryptoCurrency', addCryptoCurrency);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
-app.post('/api/buyCrypto', buyCryptoCurrency);
+app.post('/api/buyCrypto', BuyCrypto);
+app.post('/api/sellCrypto', sellCrypto);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

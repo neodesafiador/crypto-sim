@@ -44,7 +44,7 @@ async function getUserByEmail(email: string): Promise<User | null> {
 }
 
 async function getUserByID(userId: string): Promise<User | null> {
-  const user = await userRepository.findOne({ where: { userId }, relations: ['currencies'] });
+  const user = await userRepository.findOne({ where: { userId }, relations: ['wallets'] });
 
   return user;
 }
@@ -67,6 +67,15 @@ async function updateBuyUserBalance(user: User, totalCost: number): Promise<User
   return updatedUser;
 }
 
+async function updateSellUserBalance(user: User, totalCost: number): Promise<User> {
+  const updatedUser = user;
+  updatedUser.balance += totalCost;
+
+  await userRepository.save(updatedUser);
+
+  return updatedUser;
+}
+
 export {
   allUserData,
   addUser,
@@ -76,4 +85,5 @@ export {
   updateEmailAddress,
   updateBuyUserBalance,
   getUserByID,
+  updateSellUserBalance,
 };

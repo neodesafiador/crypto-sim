@@ -1,6 +1,4 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, Relation, OneToOne } from 'typeorm';
-import { User } from './User';
-import { Wallet } from './Wallet';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
 export class CryptoCurrency {
@@ -15,16 +13,4 @@ export class CryptoCurrency {
   // @Column({ unique: true })
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   preValue: number;
-
-  @Column()
-  boughtOn: Date;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  quantity: number;
-
-  @ManyToOne(() => User, (user) => user.currencies, { cascade: ['insert', 'update'] })
-  user: Relation<User>;
-
-  @OneToOne(() => Wallet, (wallet) => wallet.currency, { cascade: ['insert', 'update'] })
-  wallet: Wallet[];
 }

@@ -14,7 +14,8 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     await addUser(email, passwordHash);
-    res.redirect('/crypto');
+    res.sendStatus(201);
+    // res.redirect('/crypto');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -69,8 +70,8 @@ async function logIn(req: Request, res: Response): Promise<void> {
     email: user.email,
   };
   req.session.isLoggedIn = true;
-
-  res.redirect('/crypto');
+  res.sendStatus(201);
+  // res.redirect('/crypto');
 }
 
 async function logOut(req: Request, res: Response): Promise<void> {

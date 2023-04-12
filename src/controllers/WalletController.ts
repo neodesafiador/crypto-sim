@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { updateBuyUserBalance, getUserByID } from '../models/UserModel';
-
+import { updateBuyUserBalance, updateSellUserBalance, getUserByID } from '../models/UserModel';
 import { getCryptoByType } from '../models/CryptoModel';
-
-import { getWalletById, updateBuyWallet } from '../models/WalletModel';
+import {
+  addWallet,
+  updateBuyWallet,
+  updateSellWallet,
+  getWalletByUserId,
+} from '../models/WalletModel';
 
 async function BuyCrypto(req: Request, res: Response): Promise<void> {
   try {
@@ -12,7 +15,7 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
     const { cryptoType, quantity } = req.body as CryptoRequest;
     const user = await getUserByID(userId);
     const crypto = await getCryptoByType(cryptoType);
-    const wallet = await getWalletById(userId);
+    const wallet = await getWalletByUserId(user, cryptoType);
 
     if (!user) {
       res.sendStatus(404).json('User Not Found');
@@ -35,10 +38,16 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    updateBuyWallet(wallet, quantity);
     updateBuyUserBalance(user, totalCost);
 
-    console.log(`Bought ${wallet.amount} ${crypto.cryptoType} for $${totalCost}`);
+    if (wallet) {
+      // TODO:check if the user has the crytoType in wallet )
+      updateBuyWallet(wallet, quantity);
+    } else {
+      await addWallet(quantity, cryptoType);
+    }
+
+    // console.log(`Bought ${wallet.amount} ${crypto.cryptoType} for $${totalCost}`);
     res.sendStatus(200);
   } catch (err) {
     console.error(err);
@@ -47,4 +56,44 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { BuyCrypto };
+async function sellCrypto(req: Request, res: Response): Promise<void> {
+  try {
+    const { userId } = req.session.authenticatedUser;
+    const { cryptoType, quantity } = req.body as CryptoRequest;
+    const user = await getUserByID(userId);
+    const crypto = await getCryptoByType(cryptoType);
+    const wallet = await getWalletByUserId(user, cryptoType);
+
+    if (!user) {
+      res.sendStatus(404).json('User Not Found');
+      return;
+    }
+    if (!req.session.isLoggedIn) {
+      res.sendStatus(401).json('User is Not Logged In');
+      return;
+    }
+    if (!wallet) {
+      res.sendStatus(403).json('Crypto Not Found');
+      return;
+    }
+
+    const totalCost = quantity * crypto.value;
+
+    if (wallet.amount < quantity) {
+      res.sendStatus(400).json('User does not own enough to sell');
+      console.error('User does not have enough money to buy');
+      return;
+    }
+
+    updateSellUserBalance(user, totalCost);
+    updateSellWallet(wallet, quantity);
+
+    // console.log(`Bought ${wallet.amount} ${crypto.cryptoType} for $${totalCost}`);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.sendStatus(500).json(databaseErrorMessage);
+  }
+}
+export { BuyCrypto, sellCrypto };

@@ -1,7 +1,6 @@
 // import { createHash } from 'crypto';
 import { AppDataSource } from '../dataSource';
 import { CryptoCurrency } from '../entities/CryptoCurrency';
-import { User } from '../entities/User';
 
 const cryptoRepository = AppDataSource.getRepository(CryptoCurrency);
 
@@ -11,15 +10,12 @@ async function allCryptoData(): Promise<CryptoCurrency[]> {
   return allCrypto;
 }
 
-async function addCrypto(cryptoType: string, value: number, user: User): Promise<CryptoCurrency> {
+async function addCrypto(cryptoType: string, value: number): Promise<CryptoCurrency> {
   // Create the new user object
   const newCrypto = new CryptoCurrency();
   newCrypto.cryptoType = cryptoType;
   newCrypto.value = value;
   newCrypto.preValue = value;
-  newCrypto.boughtOn = new Date();
-
-  newCrypto.user = user;
 
   await cryptoRepository.save(newCrypto);
 
@@ -44,16 +40,10 @@ async function getCurrenciesByUserId(userId: string): Promise<CryptoCurrency[]> 
   return crypto;
 }
 
-async function updateBuyCryptoBalance(
-  crypto: CryptoCurrency,
-  quantity: number
-): Promise<CryptoCurrency> {
+async function updateBuyCryptoBalance(crypto: CryptoCurrency): Promise<CryptoCurrency> {
   const updatedCrypto = crypto;
-  const now = new Date();
+
   updatedCrypto.preValue = crypto.value;
-  updatedCrypto.quantity += quantity;
-  updatedCrypto.boughtOn = now;
-  console.log(`Quantity: ${updatedCrypto.quantity}`);
 
   await cryptoRepository.save(updatedCrypto);
 
