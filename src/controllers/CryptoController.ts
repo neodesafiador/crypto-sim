@@ -67,6 +67,78 @@ async function buyCryptoCurrency(req: Request, res: Response): Promise<void> {
   }
 }
 
+// async function BuyCrypto(req: Request, res: Response): Promise<void> {
+//   try {
+//     const { userId } = req.session.authenticatedUser;
+//     const { cryptoType, quantity } = req.body as CryptoRequest;
+//     const user = await getUserByID(userId);
+//     const crypto = await getCryptoByType(cryptoType);
+//     // const { userId } = req.body;
+//     // const { cryptoType } = req.body;
+//     // const quantity = parseFloat(req.body.quantity);
+//     // const value = parseFloat(req.body.value);
+
+//     // const userRepository = getRepository(User);
+//     // const user = await userRepository.findOneOrFail(userId);
+
+//     // Check if user has enough balance
+//     if (user.balance < quantity * value) {
+//       return res.status(400).json({ message: 'Insufficient balance.' });
+//     }
+
+//     // Check if user already has a wallet for this cryptocurrency
+//     const walletRepository = getRepository(Wallet);
+//     let wallet = await walletRepository.findOne({
+//       where: { user, currency: { cryptoType } },
+//     });
+
+//     if (!wallet) {
+//       // Create a new wallet for the cryptocurrency
+//       wallet = new Wallet();
+//       wallet.walletId = uuidv4();
+//       wallet.address = generateAddress();
+//       wallet.privateKey = generatePrivateKey();
+//       wallet.amount = 0;
+//       wallet.balance = 0;
+//       wallet.profit = 0;
+//       wallet.user = user;
+
+//       const cryptoCurrency = new CryptoCurrency();
+//       cryptoCurrency.cryptoType = cryptoType;
+//       cryptoCurrency.value = value;
+//       cryptoCurrency.preValue = value;
+//       cryptoCurrency.boughtOn = new Date();
+//       cryptoCurrency.quantity = quantity;
+//       cryptoCurrency.user = user;
+//       cryptoCurrency.wallet = wallet;
+
+//       await getRepository(CryptoCurrency).save(cryptoCurrency);
+//     } else {
+//       // Update the existing wallet and cryptocurrency
+//       const cryptoCurrencyRepository = getRepository(CryptoCurrency);
+//       const cryptoCurrency = await cryptoCurrencyRepository.findOne({ where: { wallet } });
+
+//       cryptoCurrency.value = value;
+//       cryptoCurrency.preValue = value;
+//       cryptoCurrency.quantity += quantity;
+
+//       await cryptoCurrencyRepository.save(cryptoCurrency);
+//     }
+
+//     // Update user balance
+//     user.prevBalance = user.balance;
+//     user.balance -= quantity * value;
+//     user.profit = user.balance - 100;
+
+//     await userRepository.save(user);
+
+//     res.status(200).json({ message: 'Successfully bought cryptocurrency.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'An error occurred while buying cryptocurrency.' });
+//   }
+// }
+
 // TODO: function for sell crypto
 
 export { addCryptoCurrency, buyCryptoCurrency };
