@@ -17,10 +17,6 @@ body
   --app-primary-color: #3d30bb;
   --app-text-dark-color: rgba(0, 0, 0, 0.8);
   --app-text-light-color: rgba(0, 0, 0, 0.5);
-  /* --app-bg-color: black;
-  --app-primary-color: red;
-  --app-text-dark-color: white;
-  --app-text-light-color: rgba(0, 0, 0, 0.5); */
 }
 
 #crypto_sim
@@ -94,7 +90,6 @@ body
   width: 100%;
   height: 20px;
   background-color: #fff;
-  /* background-color: black; */
   left: 0;
   bottom: 0;
   margin-bottom: -10px;
@@ -102,7 +97,7 @@ body
 
 
 /** **/
-#cs_action_btns 
+#cs_action_btns
 {
   margin-top: 20px;
 }
