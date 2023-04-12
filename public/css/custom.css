@@ -85,7 +85,7 @@ body
 
 #cs_body_chart > div:after
 {
-  position: absolute;
+  position: relative;
   content: ' ';
   width: 100%;
   height: 20px;
