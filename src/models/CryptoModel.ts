@@ -1,4 +1,3 @@
-// import { createHash } from 'crypto';
 import { AppDataSource } from '../dataSource';
 import { CryptoCurrency } from '../entities/CryptoCurrency';
 
@@ -23,9 +22,7 @@ async function addCrypto(cryptoType: string, value: number): Promise<CryptoCurre
 }
 
 async function getCryptoByType(cryptoType: string): Promise<CryptoCurrency> {
-  const crypto = await cryptoRepository.findOne({ where: { cryptoType } });
-
-  return crypto;
+  return await cryptoRepository.findOne({ where: { cryptoType } });
 }
 
 async function getCurrenciesByUserId(userId: string): Promise<CryptoCurrency[]> {
