@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, Relation, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
+import { CryptoCurrency } from './CryptoCurrency';
 
 @Entity()
 export class Wallet {
@@ -17,4 +18,7 @@ export class Wallet {
 
   @ManyToOne(() => User, (user) => user.wallets, { cascade: ['insert', 'update'] })
   user: Relation<User>;
+
+  @ManyToOne(() => CryptoCurrency, (crypto) => crypto.wallet, { cascade: ['insert', 'update'] })
+  crypto: Relation<CryptoCurrency>;
 }
