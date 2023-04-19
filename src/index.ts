@@ -1,14 +1,12 @@
 import './config'; // Load environment variables
 import 'express-async-errors'; // Enable default error handling for async errors
-
 import express, { Express } from 'express';
-
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 
 import { registerUser, logIn, logOut } from './controllers/UserController';
 import { addCryptoCurrency } from './controllers/CryptoController';
-import { BuyCrypto, sellCrypto } from './controllers/WalletController';
+import { addTransaction, BuyCrypto, sellCrypto } from './controllers/TransactionController';
 
 const app: Express = express();
 
@@ -36,6 +34,7 @@ app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
 app.get('/api/login', logOut);
 app.post('/api/addCryptoCurrency', addCryptoCurrency);
+app.post('/api/addTransaction', addTransaction);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
 app.post('/api/buyCrypto', BuyCrypto);

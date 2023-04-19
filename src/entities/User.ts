@@ -1,13 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-  Relation,
-} from 'typeorm';
-import { Wallet } from './Wallet';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation } from 'typeorm';
+import { Transaction } from './Transaction';
 import { CryptoCurrency } from './CryptoCurrency';
 
 @Entity()
@@ -33,10 +25,13 @@ export class User {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   profit: number;
 
-  @OneToMany(() => Wallet, (wallet) => wallet.user, { cascade: ['insert', 'update'] })
-  wallets: Relation<Wallet>[];
+  @OneToMany(() => Transaction, (transaction) => transaction.user, {
+    cascade: ['insert', 'update'],
+  })
+  transactions: Relation<Transaction>[];
 
-  @ManyToMany(() => CryptoCurrency, (crypto) => crypto.users, { cascade: ['insert', 'update'] })
-  @JoinTable()
-  cryptos: Relation<CryptoCurrency>[];
+  @OneToMany(() => CryptoCurrency, (cryptocurrency) => cryptocurrency.user, {
+    cascade: ['insert', 'update'],
+  })
+  cryptoCurrencies: Relation<CryptoCurrency>[];
 }
