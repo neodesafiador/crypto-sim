@@ -4,7 +4,6 @@ import argon2 from 'argon2';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
 import { addUser, getUserByEmail } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
-// import { CryptoCurrency } from '../entities/CryptoCurrency';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body as AuthRequest;

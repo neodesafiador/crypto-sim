@@ -44,7 +44,7 @@ async function getUserByEmail(email: string): Promise<User | null> {
 }
 
 async function getUserByID(userId: string): Promise<User | null> {
-  const user = await userRepository.findOne({ where: { userId }, relations: ['wallets'] });
+  const user = await userRepository.findOne({ where: { userId }, relations: ['transactions'] });
 
   return user;
 }
