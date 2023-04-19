@@ -7,16 +7,13 @@ async function allUserData(): Promise<User[]> {
   const allUsers = await userRepository.find();
 
   return allUsers;
-} // getting back all of the data. makesure to take out the data for the project.
+} // getting back all of the data. make sure to take out the data for the project.
 
 async function addUser(email: string, passwordHash: string): Promise<User> {
   // Create the new user object
   const newUser = new User();
   newUser.email = email;
   newUser.passwordHash = passwordHash;
-  // newUser.balance = 100;
-  // newUser.prevBalance = 100;
-  // newUser.profit;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access
@@ -49,15 +46,6 @@ async function getUserByID(userId: string): Promise<User | null> {
   return user;
 }
 
-async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
-  await userRepository
-    .createQueryBuilder()
-    .update(User)
-    .set({ email: newEmail })
-    .where({ userId })
-    .execute();
-}
-
 async function updateBuyUserBalance(user: User, totalCost: number): Promise<User> {
   const updatedUser = user;
   updatedUser.balance -= totalCost;
@@ -76,14 +64,23 @@ async function updateSellUserBalance(user: User, totalCost: number): Promise<Use
   return updatedUser;
 }
 
+async function updateBalance(user: User): Promise<User> {
+  const updatedUser = user;
+  updatedUser.balance += 100;
+
+  await userRepository.save(updatedUser);
+
+  return updatedUser;
+}
+
 export {
   allUserData,
   addUser,
   getUserByEmail,
   getAllUsers,
   getAllUnverifiedUsers,
-  updateEmailAddress,
   updateBuyUserBalance,
   getUserByID,
   updateSellUserBalance,
+  updateBalance,
 };

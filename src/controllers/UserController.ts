@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import argon2 from 'argon2';
 // import axios from 'axios';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail } from '../models/UserModel';
+import { addUser, getUserByEmail, updateBalance } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
@@ -13,8 +13,8 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     await addUser(email, passwordHash);
-    // res.sendStatus(201);
-    res.redirect('/crypto');
+    res.sendStatus(201);
+    // res.redirect('/crypto');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -69,14 +69,29 @@ async function logIn(req: Request, res: Response): Promise<void> {
     email: user.email,
   };
   req.session.isLoggedIn = true;
-  // res.sendStatus(201);
-  res.redirect('/crypto');
+  res.sendStatus(201);
+  // res.redirect('/crypto');
 }
 
 async function logOut(req: Request, res: Response): Promise<void> {
   req.session.isLoggedIn = false;
 
   res.redirect('/login');
+}
+
+async function addBalance(req: Request, res: Response): Promise<void> {
+  const { email } = req.body as AuthRequest;
+
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    res.sendStatus(404); // 404 Not Found (403 Forbidden would also make a lot of sense here)
+    return;
+  }
+
+  await updateBalance(user);
+
+  res.sendStatus(201);
 }
 
 // async function printCryptoCurrencies(): Promise<void> {
@@ -138,4 +153,4 @@ async function logOut(req: Request, res: Response): Promise<void> {
 //   console.log(data);
 // })();
 
-export { registerUser, logIn, logOut };
+export { registerUser, logIn, logOut, addBalance };
