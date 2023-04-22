@@ -9,7 +9,7 @@ import { addCryptoCurrency } from './controllers/CryptoController';
 import { addTransaction, BuyCrypto, SellCrypto } from './controllers/TransactionController';
 
 const app: Express = express();
-
+app.set('view engine', 'ejs');
 const { PORT, COOKIE_SECRET } = process.env;
 
 const SQLiteStore = connectSqlite3(session);
@@ -33,6 +33,9 @@ app.use(express.json());
 app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
 app.get('/api/login', logOut);
+app.get('/views/addCryptoPage', (req, res) => {
+  res.render('addCryptoPage');
+});
 app.post('/api/addCryptoCurrency', addCryptoCurrency);
 app.post('/api/addTransaction', addTransaction);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
