@@ -19,6 +19,6 @@ export class CryptoCurrency {
   @ManyToOne(() => User, (user) => user.cryptoCurrencies, { cascade: ['insert', 'update'] })
   user: Relation<User>;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.crypto)
+  @OneToMany(() => Transaction, (transaction) => transaction.cryptocurrency)
   transactions: Relation<Transaction>[];
 }

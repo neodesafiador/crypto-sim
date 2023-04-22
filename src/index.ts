@@ -6,7 +6,7 @@ import connectSqlite3 from 'connect-sqlite3';
 
 import { registerUser, logIn, logOut, addBalance } from './controllers/UserController';
 import { addCryptoCurrency } from './controllers/CryptoController';
-import { addTransaction, BuyCrypto, sellCrypto } from './controllers/TransactionController';
+import { addTransaction, BuyCrypto, SellCrypto } from './controllers/TransactionController';
 
 const app: Express = express();
 
@@ -38,7 +38,7 @@ app.post('/api/addTransaction', addTransaction);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
 app.post('/api/buyCrypto', BuyCrypto);
-app.post('/api/sellCrypto', sellCrypto);
+app.post('/api/sellCrypto', SellCrypto);
 
 app.post('/api/addBalance', addBalance);
 

@@ -7,10 +7,7 @@ export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   transactionId: string;
 
-  @Column({ nullable: true })
-  price: number;
-
-  @Column()
+  @Column({ default: 0, nullable: true })
   amount: number;
 
   @Column({ nullable: true })
@@ -22,6 +19,6 @@ export class Transaction {
   @ManyToOne(() => User, (user) => user.transactions, { cascade: ['insert', 'update'] })
   user: Relation<User>;
 
-  @ManyToOne(() => CryptoCurrency, (crypto) => crypto.transactions)
-  crypto: Relation<CryptoCurrency>;
+  @ManyToOne(() => CryptoCurrency, (cryptocurrency) => cryptocurrency.transactions)
+  cryptocurrency: Relation<CryptoCurrency>;
 }

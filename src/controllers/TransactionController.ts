@@ -1,19 +1,24 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
+// import { updateBuyUserBalance, updateSellUserBalance, getUserByID } from '../models/UserModel';
 import { updateBuyUserBalance, updateSellUserBalance, getUserByID } from '../models/UserModel';
 import { getCryptoByType } from '../models/CryptoModel';
 import {
   addTransact,
   updateBuyTransaction,
   updateSellTransaction,
-  getTransactionByUser,
+  getTransactionIdByUser,
+  userHasTransactionForCryptocurrency,
+  userHasCryptoAmount,
 } from '../models/TransactionModel';
 
 async function addTransaction(req: Request, res: Response): Promise<void> {
   const { cryptoType, amount } = req.body as TransactionRequest;
+  const { userId } = req.session.authenticatedUser;
+  const user = await getUserByID(userId);
 
   try {
-    await addTransact(cryptoType, amount);
+    await addTransact(user, cryptoType, amount);
     res.sendStatus(201);
   } catch (err) {
     console.error(err);
@@ -23,97 +28,81 @@ async function addTransaction(req: Request, res: Response): Promise<void> {
 }
 
 async function BuyCrypto(req: Request, res: Response): Promise<void> {
-  try {
-    const { userId } = req.session.authenticatedUser;
-    const { cryptoType, quantity } = req.body as CryptoRequest;
-    const user = await getUserByID(userId);
-    const crypto = await getCryptoByType(cryptoType);
+  const { isLoggedIn } = req.session;
+  const { userId } = req.session.authenticatedUser;
+  if (!isLoggedIn) {
+    res.sendStatus(401);
 
-    const transaction = await getTransactionByUser(user, cryptoType);
+    return;
+  }
+  const { cryptoType, quantity } = req.body as { cryptoType: string; quantity: number };
 
-    if (!user) {
-      res.sendStatus(404).json('User Not Found');
-      return;
-    }
-    if (!req.session.isLoggedIn) {
-      res.sendStatus(401).json('User is Not Logged In');
-      return;
-    }
-    if (!crypto) {
-      res.sendStatus(403).json('Crypto Not Found');
-      return;
-    }
+  const cryptocurrency = await getCryptoByType(cryptoType);
+  const user = await getUserByID(userId);
 
-    const totalCost = quantity * crypto.value;
+  if (!cryptocurrency || !user) {
+    res.sendStatus(404);
+    return;
+  }
 
-    if (user.balance < totalCost) {
-      res.sendStatus(400).json('User does not have enough money to buy');
-      console.error('User does not have enough money to buy');
-      return;
-    }
+  const totalCost = quantity * cryptocurrency.value;
 
-    // res.json(user);
-    // res.json(crypto);
-    // res.json(wallet);
+  if (user.balance < totalCost) {
+    res.sendStatus(400).json('User does not have enough money to buy');
+    console.error('User does not have enough money to buy');
+    return;
+  }
 
-    updateBuyUserBalance(user, totalCost);
+  await updateBuyUserBalance(user, totalCost);
 
-    if (transaction) {
-      // TODO:check if the user has the cryptoType in transaction
-      updateBuyTransaction(transaction, quantity);
+  const transactionExists = await userHasTransactionForCryptocurrency(userId, cryptoType);
+
+  if (transactionExists) {
+    const transactionId = await getTransactionIdByUser(user, cryptocurrency);
+    await updateBuyTransaction(transactionId, quantity, user, cryptoType);
+    res.sendStatus(201);
+    return;
+  }
+
+  await addTransact(user, cryptoType, quantity);
+  res.sendStatus(201);
+}
+
+async function SellCrypto(req: Request, res: Response): Promise<void> {
+  const { isLoggedIn } = req.session;
+  const { userId } = req.session.authenticatedUser;
+  if (!isLoggedIn) {
+    res.sendStatus(401);
+
+    return;
+  }
+  const { cryptoType, quantity } = req.body as { cryptoType: string; quantity: number };
+
+  const cryptocurrency = await getCryptoByType(cryptoType);
+  const user = await getUserByID(userId);
+
+  if (!cryptocurrency || !user || quantity <= 0) {
+    res.sendStatus(404);
+    return;
+  }
+
+  const totalCost = quantity * cryptocurrency.value;
+  // check if user has crypto
+  const transactionExists = await userHasTransactionForCryptocurrency(userId, cryptoType);
+  if (transactionExists) {
+    // check if user has amount of crypto
+    const cryptoAmountExists = await userHasCryptoAmount(userId, cryptoType, quantity);
+    if (cryptoAmountExists) {
+      const transactionId = await getTransactionIdByUser(user, cryptocurrency);
+      updateSellTransaction(transactionId, quantity, user, cryptoType);
+      updateSellUserBalance(user, totalCost);
+      res.sendStatus(201);
     } else {
-      await addTransact(cryptoType, quantity);
+      res.sendStatus(403);
     }
-
-    console.log(`Bought ${quantity} ${crypto.cryptoType} for $${totalCost}`);
-    console.log(`Balance: ${user.balance}`);
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.sendStatus(500).json(databaseErrorMessage);
+  } else {
+    res.sendStatus(402);
   }
 }
 
-async function sellCrypto(req: Request, res: Response): Promise<void> {
-  try {
-    const { userId } = req.session.authenticatedUser;
-    const { cryptoType, quantity } = req.body as CryptoRequest;
-    const user = await getUserByID(userId);
-    const crypto = await getCryptoByType(cryptoType);
-    const transaction = await getTransactionByUser(user, cryptoType);
-
-    if (!user) {
-      res.sendStatus(404).json('User Not Found');
-      return;
-    }
-    if (!req.session.isLoggedIn) {
-      res.sendStatus(401).json('User is Not Logged In');
-      return;
-    }
-    if (!crypto) {
-      res.sendStatus(403).json('Crypto Not Found');
-      return;
-    }
-
-    const totalCost = quantity * crypto.value;
-
-    if (transaction.amount < quantity) {
-      res.sendStatus(400).json('User does not own enough to sell');
-      console.error('User does not have enough money to buy');
-      return;
-    }
-
-    updateSellUserBalance(user, totalCost);
-    updateSellTransaction(transaction, quantity);
-
-    // console.log(`Bought ${wallet.amount} ${crypto.cryptoType} for $${totalCost}`);
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.sendStatus(500).json(databaseErrorMessage);
-  }
-}
-
-export { addTransaction, BuyCrypto, sellCrypto };
+export { addTransaction, BuyCrypto, SellCrypto };
