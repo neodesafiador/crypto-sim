@@ -52,10 +52,6 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    // res.json(user);
-    // res.json(crypto);
-    // res.json(wallet);
-
     updateBuyUserBalance(user, totalCost);
 
     if (transaction) {

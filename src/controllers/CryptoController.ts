@@ -7,7 +7,8 @@ async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
 
   try {
     await addCrypto(cryptoType, value);
-    res.sendStatus(201);
+    res.render(`addCryptoPage`);
+    // res.sendStatus(201);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
