@@ -64,13 +64,10 @@ async function updateSellTransaction(
   return updatedTransaction;
 }
 
-async function getTransactionByUser(userId: string, cryptoType: string): Promise<Transaction> {
-  const transaction = await transactionRepository
-    .createQueryBuilder('transaction')
-    .leftJoinAndSelect('transaction.user', 'user')
-    .where('user.userId = :userId', 'transaction.crypto.cryptoType = :cryptoType', { userId, cryptoType })
-    .select(['transaction', 'user.userId'])
-    .getOne();
+async function getTransactionByUser(user: User, cryptoType: string): Promise<Transaction> {
+  const transaction = user.transactions.find(
+    (transactions) => transactions.crypto.cryptoType === cryptoType
+  );
 
   return transaction;
 }
