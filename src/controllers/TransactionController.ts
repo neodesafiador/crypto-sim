@@ -47,7 +47,6 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
 
   const totalCost = quantity * cryptocurrency.value;
 
-
   if (user.balance < totalCost) {
     res.sendStatus(400).json('User does not have enough money to buy');
     console.error('User does not have enough money to buy');
@@ -55,7 +54,6 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
   }
 
   await updateBuyUserBalance(user, totalCost);
-
 
   const transactionExists = await userHasTransactionForCryptocurrency(userId, cryptoType);
 
