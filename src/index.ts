@@ -32,6 +32,10 @@ app.use(express.json());
 
 app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
+app.get('/bitcoinPage', (req, res) => {
+  res.render('bitcoinPage');
+});
+
 app.get('/api/login', logOut);
 app.get('/views/addCryptoPage', (req, res) => {
   res.render('addCryptoPage');
