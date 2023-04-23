@@ -27,11 +27,11 @@ async function getCryptoByType(cryptoType: string): Promise<CryptoCurrency> {
 
 async function getCurrenciesByUserId(userId: string): Promise<CryptoCurrency[]> {
   const crypto = await cryptoRepository
-    .createQueryBuilder('link')
+    .createQueryBuilder('cryptocurrency')
     // .where('userId = :userId', { user: { userId } })
     .where({ user: { userId } })
-    .leftJoin('currency.user', 'user')
-    .select(['currency.cryptoType', 'currency.value', 'user.userId'])
+    .leftJoin('cryptocurrency.user', 'user')
+    .select(['cryptocurrency.cryptoType', 'cryptocurrency.value', 'user.userId'])
     .getMany();
 
   return crypto;
