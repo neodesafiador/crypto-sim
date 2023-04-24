@@ -65,7 +65,8 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
   }
 
   await addTransact(user, cryptoType, quantity);
-  res.sendStatus(201);
+  // res.sendStatus(201);
+  res.render('/coins/buy/:slug');
 }
 
 async function sellCrypto(req: Request, res: Response): Promise<void> {

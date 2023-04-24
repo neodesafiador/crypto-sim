@@ -39,13 +39,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="addCryptoPage">
+              <a class="nav-link" href="addBalance">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
                   <circle cx="9" cy="21" r="1"></circle>
                   <circle cx="20" cy="21" r="1"></circle>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
-                Add Balance
+                Balance
               </a>
             </li>
             <li class="nav-item">
@@ -73,7 +73,13 @@
         </div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
           <h1 class="h2">Dashboard</h1>
-
+          <select>
+            <option>Bitcoin (BTC)</option>
+            <option>Ethereum (ETH)</option>
+            <option>Tether (USDT)</option>
+            <option>BNB (BNB)</option>
+            <option>USD Coin (USDC)</option>
+          </select>
         </div>
 
         <% for (let i = 0; i < 5; i++) { %>
@@ -86,7 +92,7 @@
                   <div class="name">
                     <p><%= coins[i].name %> (<%= coins[i].symbol %>)</p>
                   </div>
-                  <p class="price">Current Price: $ <%= coins[i].quote.USD.price %></p>
+                  <p class="price">Current Price: $ <%= coins[i].quote.USD.price.toFixed(5) %></p>
                 </ul>
               </div>
 
@@ -94,26 +100,26 @@
             <!-- End Section Header 1 -->
 
             <!-- Start Section Body -->
-            <div class="col-6 text-center pr-2" href="/coins/buy<%= coins[i].slug %>" method="POST" action="buyCrypto">
+            <div class="col-6 text-center pr-2" href="/coins/buy/<%= coins[i].slug %>" method="POST" action="buyCrypto">
               <section id="cs_action_btns" class="row">
                 <button class="btn cs_btn_buy w-100">
                   <i class="fa fa-long-arrow-down"></i> BUY
                 </button>
               </section>
               <label for="cryptoType">Crypto Name</label>
-              <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" required />
+              <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
               <label for="quantity">Quantity</label>
               <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="0" required />
             </div>
 
-            <div class="col-6 text-center pr-2" href="/coins/sell<%= coins[i].slug %>" method="POST" action="sellCrypto">
+            <div class="col-6 text-center pr-2" href="/coins/sell/<%= coins[i].slug %>" method="POST" action="sellCrypto">
               <section id="cs_action_btns" class="row">
                 <button class="btn cs_btn_sell bg-success w-100">
                   <i class="fa fa-long-arrow-up"></i> SELL
                 </button>
               </section>
               <label for="cryptoType">Crypto Name</label>
-              <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" required />
+              <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
               <label for="quantity">Quantity</label>
               <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="0" required />
             </div>
@@ -176,7 +182,7 @@
 
     </div>
 
-
+    <pre><%= JSON.stringify(coins, null, 4) %></pre>
   </body>
 </html>
 

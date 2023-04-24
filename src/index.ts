@@ -38,17 +38,21 @@ app.get('/addCryptoPage', (req, res) => {
   res.render('addCryptoPage');
 });
 
-app.post('/api/addCryptoCurrency', addCryptoCurrency);
+app.post('/addCryptoCurrency', addCryptoCurrency);
 
 app.get('/coinsPage', renderCoinsPage);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
 // app.post('/api/buyCrypto', BuyCrypto);
-app.post('/coins/:slug', buyCrypto);
+app.get('/coins/buy/:slug', buyCrypto);
+app.post('/coins/buy/:slug', buyCrypto);
 
-app.post('/api/sellCrypto', sellCrypto);
+// app.post('/api/sellCrypto', sellCrypto);
+app.get('/coins/sell/:slug', sellCrypto);
+app.post('/coins/sell/:slug', sellCrypto);
 
-app.post('/api/addBalance', addBalance);
+app.get('/addBalance', addBalance);
+app.post('/addBalance', addBalance);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
