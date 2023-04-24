@@ -8,7 +8,7 @@
 body
 {
   font-family: 'Poppins', sans-serif;
-  overflow: hidden;
+  overflow-y: scroll;
   /* background: #313131; */
 }
 
@@ -21,7 +21,7 @@ body
 
 #crypto_sim
 {
-  /* position: absolute; */
+  position: absolute;
   height: auto;
   padding: 0 22px;
   padding-bottom: 20px;
@@ -71,7 +71,7 @@ body
 
 
 /** **/
-#cs_body_chart
+/* #cs_body_chart
 {
   position: relative;
   margin-top: 30px;
@@ -81,9 +81,9 @@ body
 {
   position: relative;
   margin-left: -15px;
-}
+} */
 
-#cs_body_chart > div:after
+/* #cs_body_chart > div:after
 {
   position: relative;
   content: ' ';
@@ -93,7 +93,7 @@ body
   left: 0;
   bottom: 0;
   margin-bottom: -10px;
-}
+} */
 
 
 /** **/
@@ -148,7 +148,6 @@ body
   font-size: 14px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.9);
-  /* color: white; */
 }
 
 #cs_body_transactions .body_title span
@@ -217,4 +216,3 @@ div.transactions_list .amount_sent
 {
   color: var(--app-text-light-color);
 }
-
