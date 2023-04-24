@@ -91,7 +91,7 @@ async function addBalance(req: Request, res: Response): Promise<void> {
 
   await updateBalance(user);
 
-  res.sendStatus(201);
+  res.render('balancePage', { user });
 }
 
 export { registerUser, logIn, logOut, addBalance };
