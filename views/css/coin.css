@@ -1,0 +1,10 @@
+.coinsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem; /* add gap between coins */
+}
+
+.coin {
+  list-style-type: none; /* disable bullets for list items */
+  background: rgb(142, 253, 255);
+}

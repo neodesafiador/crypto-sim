@@ -16,4 +16,31 @@ async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { addCryptoCurrency };
+async function renderCoinsPage(req: Request, res: Response): Promise<void> {
+  let response = null;
+  const { COIN_MARKET_API_KEY } = process.env;
+
+  try {
+    response = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+      headers: {
+        'X-CMC_PRO_API_KEY': COIN_MARKET_API_KEY,
+      },
+    });
+  } catch (ex) {
+    response = null;
+    // error
+    console.log(ex);
+    res.json(ex);
+    return;
+  }
+
+  if (response.ok) {
+    // success
+    const coinData = await response.json();
+    const coins = coinData.data;
+    console.log(coins);
+    res.render('coinsPage', { coins });
+  }
+}
+
+export { addCryptoCurrency, renderCoinsPage };

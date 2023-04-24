@@ -5,8 +5,8 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 
 import { registerUser, logIn, logOut, addBalance } from './controllers/UserController';
-import { addCryptoCurrency } from './controllers/CryptoController';
-import { addTransaction, BuyCrypto, SellCrypto } from './controllers/TransactionController';
+import { addCryptoCurrency, renderCoinsPage } from './controllers/CryptoController';
+import { buyCrypto, sellCrypto } from './controllers/TransactionController';
 
 const app: Express = express();
 app.set('view engine', 'ejs');
@@ -31,19 +31,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.post('/api/users', registerUser); // Create an account
-app.post('/api/login', logIn); // Log in to an account
-app.get('/api/login', logOut);
-app.get('/views/addCryptoPage', (req, res) => {
+app.post('/login', logIn); // Log in to an account
+
+app.get('/login', logOut);
+app.get('/addCryptoPage', (req, res) => {
   res.render('addCryptoPage');
 });
-app.post('/api/addCryptoCurrency', addCryptoCurrency);
-app.post('/api/addTransaction', addTransaction);
+
+app.post('/addCryptoCurrency', addCryptoCurrency);
+
+app.get('/coinsPage', renderCoinsPage);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
-app.post('/api/buyCrypto', BuyCrypto);
-app.post('/api/sellCrypto', SellCrypto);
+// app.post('/api/buyCrypto', BuyCrypto);
+app.get('/coins/buy/:slug', buyCrypto);
+app.post('/coins/buy/:slug', buyCrypto);
 
-app.post('/api/addBalance', addBalance);
+// app.post('/api/sellCrypto', sellCrypto);
+app.get('/coins/sell/:slug', sellCrypto);
+app.post('/coins/sell/:slug', sellCrypto);
+
+app.get('/addBalance', addBalance);
+app.post('/addBalance', addBalance);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

@@ -27,7 +27,7 @@ async function addTransaction(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function BuyCrypto(req: Request, res: Response): Promise<void> {
+async function buyCrypto(req: Request, res: Response): Promise<void> {
   const { isLoggedIn } = req.session;
   const { userId } = req.session.authenticatedUser;
   if (!isLoggedIn) {
@@ -65,10 +65,11 @@ async function BuyCrypto(req: Request, res: Response): Promise<void> {
   }
 
   await addTransact(user, cryptoType, quantity);
-  res.sendStatus(201);
+  // res.sendStatus(201);
+  res.render('/coins/buy/:slug');
 }
 
-async function SellCrypto(req: Request, res: Response): Promise<void> {
+async function sellCrypto(req: Request, res: Response): Promise<void> {
   const { isLoggedIn } = req.session;
   const { userId } = req.session.authenticatedUser;
   if (!isLoggedIn) {
@@ -105,4 +106,4 @@ async function SellCrypto(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { addTransaction, BuyCrypto, SellCrypto };
+export { addTransaction, buyCrypto, sellCrypto };
