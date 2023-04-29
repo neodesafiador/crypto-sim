@@ -16,6 +16,15 @@ async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   }
 }
 
+async function addCryptoCurrencies(name: string, price: number): Promise<void> {
+  try {
+    await addCrypto(name, price);
+    // res.sendStatus(201);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function renderCoinsPage(req: Request, res: Response): Promise<void> {
   let response = null;
   const { COIN_MARKET_API_KEY } = process.env;
@@ -40,6 +49,14 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
     const coins = coinData.data;
     console.log(coins);
     res.render('coinsPage', { coins });
+    let name: string;
+    let price: number;
+
+    for (let i = 0; i < 5; i += 1) {
+      name = coins[i].slug;
+      price = coins[i].quote.USD.price;
+      addCryptoCurrencies(name, price);
+    }
   }
 }
 

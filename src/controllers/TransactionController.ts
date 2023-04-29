@@ -36,6 +36,7 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
     return;
   }
   const { cryptoType, quantity } = req.body as { cryptoType: string; quantity: number };
+  console.log(cryptoType, quantity);
 
   const cryptocurrency = await getCryptoByType(cryptoType);
   const user = await getUserByID(userId);
@@ -66,7 +67,8 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
 
   await addTransact(user, cryptoType, quantity);
   // res.sendStatus(201);
-  res.render('/coins/buy/:slug');
+  // res.render('/coins/buy/:slug');
+  res.render('/buyCrypto');
 }
 
 async function sellCrypto(req: Request, res: Response): Promise<void> {
@@ -104,6 +106,8 @@ async function sellCrypto(req: Request, res: Response): Promise<void> {
   } else {
     res.sendStatus(402);
   }
+
+  res.render('/sellCrypto');
 }
 
 export { addTransaction, buyCrypto, sellCrypto };
