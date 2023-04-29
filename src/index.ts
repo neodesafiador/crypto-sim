@@ -44,12 +44,15 @@ app.get('/coinsPage', renderCoinsPage);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
 // app.post('/api/buyCrypto', BuyCrypto);
-app.get('/coins/buy/:slug', buyCrypto);
-app.post('/coins/buy/:slug', buyCrypto);
+app.get('/buyCrypto', buyCrypto);
+app.post('/buyCrypto', buyCrypto);
+// app.post('/coins/buy/:slug', buyCrypto);
 
 // app.post('/api/sellCrypto', sellCrypto);
-app.get('/coins/sell/:slug', sellCrypto);
-app.post('/coins/sell/:slug', sellCrypto);
+// app.get('/coins/sell/:slug', sellCrypto);
+// app.post('/coins/sell/:slug', sellCrypto);
+app.get('/sellCrypto', sellCrypto);
+app.post('/sellCrypto', sellCrypto);
 
 app.get('/addBalance', addBalance);
 app.post('/addBalance', addBalance);
