@@ -107,6 +107,7 @@ async function updateSellTransaction(
 
 async function getTransactionIdByUser(user: User, cryptocurrency: CryptoCurrency): Promise<string> {
   const transaction = await transactionRepository.findOne({ where: { cryptocurrency, user } });
+
   return transaction.transactionId;
 }
 
