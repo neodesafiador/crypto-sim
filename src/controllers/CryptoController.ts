@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { addCrypto } from '../models/CryptoModel';
+import { addCrypto, getCryptoByType } from '../models/CryptoModel';
 
 async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   const { cryptoType, value } = req.body as CryptoAuth;
@@ -49,6 +49,7 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
     const coins = coinData.data;
     console.log(coins);
     res.render('coinsPage', { coins });
+
     let name: string;
     let price: number;
 
@@ -60,4 +61,11 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { addCryptoCurrency, renderCoinsPage };
+async function renderBuyCrypto(req: Request, res: Response): Promise<void> {
+  const { cryptoType } = req.params as CryptoTypeParam;
+  const crypto = await getCryptoByType(cryptoType);
+
+  res.render('buyCryptoPage', { crypto });
+}
+
+export { addCryptoCurrency, renderCoinsPage, renderBuyCrypto };
