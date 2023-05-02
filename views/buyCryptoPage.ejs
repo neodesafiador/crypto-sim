@@ -12,7 +12,7 @@
     <h1>Buy CryptoCurrencies for  <%= coins[i].slug %></h1>
       <form action="/buyCrypto" method="POST">
         <label for="cryptoType">cryptoType</label>
-        <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
+        <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
         <label for="quantity">Quantity</label>
         <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
         <section id="cs_action_btns" class="row">
