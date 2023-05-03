@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import argon2 from 'argon2';
 // import axios from 'axios';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail, updateBalance } from '../models/UserModel';
+import { addUser, getUserByEmail, updateBalance, calculateProfit } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
@@ -96,4 +96,19 @@ async function addBalance(req: Request, res: Response): Promise<void> {
   res.render('balancePage', { user });
 }
 
-export { registerUser, logIn, logOut, addBalance };
+async function calcProfit(req: Request, res: Response): Promise<void> {
+  const { email } = req.body as AuthRequest;
+
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    res.sendStatus(404); // 404 Not Found (403 Forbidden would also make a lot of sense here)
+    return;
+  }
+
+  await calculateProfit(user);
+
+  res.render('profitPage', { user });
+}
+
+export { registerUser, logIn, logOut, addBalance, calcProfit };

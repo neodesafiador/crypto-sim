@@ -8,9 +8,8 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/css/coins.css" />
-    <title>Sell CryptoCurrency</title>
-    <script src="CryptoCurrency.ts"></script>
-    <script src="Transaction.ts"></script>
+    <title>Profits</title>
+    <script src="User.ts"></script>
     <style>
       body {
         overflow-y: scroll;
@@ -74,8 +73,13 @@
           </div>
         </div>
 
-        <h2><%= cryptoType %></h2>
-        <h4>You sold <%= quantity %></h4>
+        <h2>Profits: </h2>
+
+        <% if (user.profit > 0) { %>
+          <h4>+ $<%= user.profit %></h4>
+        <% } else { %>
+          <h4>$<%= user.profit %></h4>
+        <% } %>
       </main>
     </div>
   </body>

@@ -4,7 +4,7 @@ import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 
-import { registerUser, logIn, logOut, addBalance } from './controllers/UserController';
+import { registerUser, logIn, logOut, addBalance, calcProfit } from './controllers/UserController';
 import { addCryptoCurrency, renderCoinsPage } from './controllers/CryptoController';
 import { buyCrypto, sellCrypto } from './controllers/TransactionController';
 
@@ -54,6 +54,8 @@ app.post('/sellCrypto', sellCrypto);
 
 app.get('/addBalance', addBalance);
 app.post('/addBalance', addBalance);
+
+app.get('/profits', calcProfit);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
