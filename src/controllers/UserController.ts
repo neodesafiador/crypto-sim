@@ -20,6 +20,8 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
   }
+
+  res.redirect('/login');
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {

@@ -40,8 +40,12 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
 
   const cryptocurrency = await getCryptoByType(cryptoType);
   const user = await getUserByID(userId);
-
-  if (!cryptocurrency || !user) {
+  console.log(user);
+  // if (!cryptocurrency || !user) {
+  //   res.sendStatus(404);
+  //   return;
+  // }
+  if (!user) {
     res.sendStatus(404);
     return;
   }

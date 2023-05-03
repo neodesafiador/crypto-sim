@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Buy CryptoCurrency</title>
+</head>
+
+<body>
+    <h1>Buy CryptoCurrencies for  <%= coins[i].slug %></h1>
+      <form action="/buyCrypto" method="POST">
+        <label for="cryptoType">cryptoType</label>
+        <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
+        <label for="quantity">Quantity</label>
+        <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
+        <section id="cs_action_btns" class="row">
+          <button class="btn cs_btn_buy w-100">
+            <i class="fa fa-long-arrow-down"></i> BUY
+          </button>
+        </section>
+      </form>
+</body>
+
+</html>

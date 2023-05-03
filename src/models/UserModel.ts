@@ -66,7 +66,7 @@ async function updateSellUserBalance(user: User, totalCost: number): Promise<Use
 
 async function updateBalance(user: User): Promise<User> {
   const updatedUser = user;
-  updatedUser.balance += 100;
+  updatedUser.balance += 100000000;
 
   await userRepository.save(updatedUser);
 

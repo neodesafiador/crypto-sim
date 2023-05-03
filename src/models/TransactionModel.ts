@@ -3,8 +3,10 @@ import { Transaction } from '../entities/Transaction';
 import { User } from '../entities/User';
 import { CryptoCurrency } from '../entities/CryptoCurrency';
 import { getCryptoByType } from './CryptoModel';
+import { getUserByID } from './UserModel';
 
 const transactionRepository = AppDataSource.getRepository(Transaction);
+const userRepository = AppDataSource.getRepository(User);
 
 async function allTransactionData(): Promise<Transaction[]> {
   return await transactionRepository.find();
@@ -106,7 +108,15 @@ async function updateSellTransaction(
 }
 
 async function getTransactionIdByUser(user: User, cryptocurrency: CryptoCurrency): Promise<string> {
+  console.log(user);
+  console.log(cryptocurrency);
+  // const transaction = await transactionRepository.findOne({ where: { cryptocurrency, user } });
+  const transactionID = Transaction.
+  for(const i of user.transactions) {
+    if()
+  }
   const transaction = await transactionRepository.findOne({ where: { cryptocurrency, user } });
+
   return transaction.transactionId;
 }
 
