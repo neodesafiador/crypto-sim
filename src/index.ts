@@ -5,11 +5,7 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 
 import { registerUser, logIn, logOut, addBalance } from './controllers/UserController';
-import {
-  addCryptoCurrency,
-  renderCoinsPage,
-  renderBuyCrypto,
-} from './controllers/CryptoController';
+import { addCryptoCurrency, renderCoinsPage } from './controllers/CryptoController';
 import { buyCrypto, sellCrypto } from './controllers/TransactionController';
 
 const app: Express = express();
@@ -34,7 +30,7 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.post('/api/users', registerUser); // Create an account
+app.post('/register', registerUser); // Create an account
 app.post('/login', logIn); // Log in to an account
 
 app.get('/login', logOut);
@@ -47,16 +43,13 @@ app.post('/addCryptoCurrency', addCryptoCurrency);
 app.get('/coinsPage', renderCoinsPage);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
-// app.post('/api/buyCrypto', BuyCrypto);
-app.get('/buyCrypto/:cryptoType/buyCryptoPage', renderBuyCrypto);
-app.get('/buyCryptoPage', renderBuyCrypto);
+// app.get('/buyCrypto/:cryptoType/buyCryptoPage', renderBuyCrypto);
 app.post('/buyCrypto', buyCrypto);
 // app.post('/coins/buy/:slug', buyCrypto);
 
-// app.post('/api/sellCrypto', sellCrypto);
 // app.get('/coins/sell/:slug', sellCrypto);
 // app.post('/coins/sell/:slug', sellCrypto);
-app.get('/sellCrypto', sellCrypto); // need render functionS
+// app.get('/sellCrypto', sellCrypto); // need render functionS
 app.post('/sellCrypto', sellCrypto);
 
 app.get('/addBalance', addBalance);

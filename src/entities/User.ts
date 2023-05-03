@@ -16,10 +16,10 @@ export class User {
   @Column({ default: false })
   verifiedEmail: boolean;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1000 })
   balance: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 100 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1000 })
   prevBalance: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
