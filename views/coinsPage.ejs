@@ -103,11 +103,11 @@
             <div class="col-6 text-center pr-2 form">
               <form action="/buyCrypto" method="POST">
                 <label for="cryptoType">cryptoType</label>
-                <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
+                <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
                 <label for="quantity">Quantity</label>
                 <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
                 <section id="cs_action_btns" class="row">
-                  <button class="btn cs_btn_buy w-100">
+                  <button class="btn cs_btn_buy w-100" type="submit">
                     <i class="fa fa-long-arrow-down"></i> BUY
                   </button>
                 </section>
