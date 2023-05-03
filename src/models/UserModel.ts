@@ -73,6 +73,15 @@ async function updateBalance(user: User): Promise<User> {
   return updatedUser;
 }
 
+async function calculateProfit(user: User): Promise<User> {
+  const updatedUser = user;
+  updatedUser.profit = user.balance - user.prevBalance;
+
+  await userRepository.save(updatedUser);
+
+  return updatedUser;
+}
+
 export {
   allUserData,
   addUser,
@@ -83,4 +92,5 @@ export {
   getUserByID,
   updateSellUserBalance,
   updateBalance,
+  calculateProfit,
 };
