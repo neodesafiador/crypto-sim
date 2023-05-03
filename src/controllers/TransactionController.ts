@@ -7,7 +7,6 @@ import {
   addTransact,
   updateBuyTransaction,
   updateSellTransaction,
-  getTransactionIdByUser,
   userHasTransactionForCryptocurrency,
   userHasCryptoAmount,
 } from '../models/TransactionModel';
@@ -19,7 +18,7 @@ async function addTransaction(req: Request, res: Response): Promise<void> {
 
   try {
     await addTransact(user, cryptoType, amount);
-    res.sendStatus(201);
+    // res.sendStatus(201);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -32,25 +31,20 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
   const { userId } = req.session.authenticatedUser;
   if (!isLoggedIn) {
     res.sendStatus(401);
-
     return;
   }
   const { cryptoType, quantity } = req.body as { cryptoType: string; quantity: number };
-  console.log(cryptoType, quantity);
-
   const cryptocurrency = await getCryptoByType(cryptoType);
   const user = await getUserByID(userId);
-  console.log(user);
-  // if (!cryptocurrency || !user) {
-  //   res.sendStatus(404);
-  //   return;
-  // }
+
   if (!user) {
     res.sendStatus(404);
     return;
   }
 
   const totalCost = quantity * cryptocurrency.value;
+  console.log(totalCost);
+  console.log(user.balance);
 
   if (user.balance < totalCost) {
     res.sendStatus(400).json('User does not have enough money to buy');
@@ -63,16 +57,15 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
   const transactionExists = await userHasTransactionForCryptocurrency(userId, cryptoType);
 
   if (transactionExists) {
-    const transactionId = await getTransactionIdByUser(user, cryptocurrency);
+    const { transactionId } = req.params as { transactionId: string };
     await updateBuyTransaction(transactionId, quantity, user, cryptoType);
-    res.sendStatus(201);
+    res.render('../views/buyCryptoPage', { cryptoType, quantity });
     return;
   }
 
   await addTransact(user, cryptoType, quantity);
   // res.sendStatus(201);
-  // res.render('/coins/buy/:slug');
-  res.render('/coinsPage');
+  res.render('../views/buyCryptoPage', { cryptoType, quantity });
 }
 
 async function sellCrypto(req: Request, res: Response): Promise<void> {
@@ -80,7 +73,6 @@ async function sellCrypto(req: Request, res: Response): Promise<void> {
   const { userId } = req.session.authenticatedUser;
   if (!isLoggedIn) {
     res.sendStatus(401);
-
     return;
   }
   const { cryptoType, quantity } = req.body as { cryptoType: string; quantity: number };
@@ -88,7 +80,7 @@ async function sellCrypto(req: Request, res: Response): Promise<void> {
   const cryptocurrency = await getCryptoByType(cryptoType);
   const user = await getUserByID(userId);
 
-  if (!cryptocurrency || !user || quantity <= 0) {
+  if (!cryptocurrency || !user) {
     res.sendStatus(404);
     return;
   }
@@ -100,18 +92,16 @@ async function sellCrypto(req: Request, res: Response): Promise<void> {
     // check if user has amount of crypto
     const cryptoAmountExists = await userHasCryptoAmount(userId, cryptoType, quantity);
     if (cryptoAmountExists) {
-      const transactionId = await getTransactionIdByUser(user, cryptocurrency);
+      const { transactionId } = req.params as { transactionId: string };
       updateSellTransaction(transactionId, quantity, user, cryptoType);
       updateSellUserBalance(user, totalCost);
-      res.sendStatus(201);
+      res.render('../views/sellCryptoPage', { cryptoType, quantity });
     } else {
       res.sendStatus(403);
     }
   } else {
     res.sendStatus(402);
   }
-
-  res.render('/sellCrypto');
 }
 
 export { addTransaction, buyCrypto, sellCrypto };

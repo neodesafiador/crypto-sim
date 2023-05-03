@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { addCrypto, getCryptoByType } from '../models/CryptoModel';
+import { addCrypto, getCurrenciesByUserId } from '../models/CryptoModel';
+import { getUserByEmail } from '../models/UserModel';
 
 async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   const { cryptoType, value } = req.body as CryptoAuth;
@@ -47,8 +48,10 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
     // success
     const coinData = await response.json();
     const coins = coinData.data;
-    console.log(coins);
-    res.render('coinsPage', { coins });
+    const { email } = req.body as AuthRequest;
+    const user = await getUserByEmail(email);
+    // console.log(coins);
+    res.render('coinsPage', { coins, user });
 
     let name: string;
     let price: number;
@@ -62,8 +65,11 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
 }
 
 async function renderBuyCrypto(req: Request, res: Response): Promise<void> {
-  const { cryptoType } = req.params as CryptoTypeParam;
-  const crypto = await getCryptoByType(cryptoType);
+  // const { cryptoType } = req.params as CryptoTypeParam;
+  // const crypto = await getCryptoByType(cryptoType);
+  const { email } = req.body as AuthRequest;
+  const user = await getUserByEmail(email);
+  const crypto = await getCurrenciesByUserId(user.userId);
 
   res.render('buyCryptoPage', { crypto });
 }

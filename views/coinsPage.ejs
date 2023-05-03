@@ -9,6 +9,7 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/css/coins.css" />
+    <script src="User.ts"></script>
     <style>
       body {
         overflow-y: scroll;
@@ -20,7 +21,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Crypto-Sim</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="../public/login">Log Out</a>
+          <a class="nav-link" href="/login">Log Out</a>
         </li>
       </ul>
     </nav>
@@ -45,7 +46,7 @@
                   <circle cx="20" cy="21" r="1"></circle>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
-                Balance
+                Deposit
               </a>
             </li>
             <li class="nav-item">
@@ -82,6 +83,10 @@
           </select>
         </div>
 
+        <div class="name">
+          <h4>Balance: $ <%= user.balance %></h4>
+        </div>
+
         <% for (let i = 0; i < 5; i++) { %>
           <div>
             <!-- Start Section Header 1 -->
@@ -101,8 +106,8 @@
 
             <!-- Start Section Body -->
             <div class="col-6 text-center pr-2 form">
-              <form action="/buyCrypt" method="POST">
-                <label for="cryptoType">cryptoType</label>
+              <form action="/buyCrypto" method="POST">
+                <label for="cryptoType"></label>
                 <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
                 <label for="quantity">Quantity</label>
                 <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
@@ -116,89 +121,22 @@
 
             <div class="col-6 text-center pr-2 form">
               <form action="/sellCrypto" method="POST">
-                <label for="cryptoType">cryptoType</label>
-                <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
+                <label for="cryptoType"></label>
+                <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
                 <label for="quantity">Quantity</label>
                 <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
                 <section id="cs_action_btns" class="row">
-                  <button class="btn cs_btn_sell bg-success w-100">
+                  <button class="btn cs_btn_sell bg-success w-100" type="submit">
                     <i class="fa fa-long-arrow-up"></i> SELL
                   </button>
                 </section>
               </form>
             </div>
 
-            <!-- <div class="col-6 text-center pr-2" href="/coins/sell/<%= coins[i].slug %>" method="POST" action="sellCrypto">
-              <section id="cs_action_btns" class="row">
-                <button class="btn cs_btn_sell bg-success w-100">
-                  <i class="fa fa-long-arrow-up"></i> SELL
-                </button>
-              </section>
-              <label for="cryptoType">Crypto Name</label>
-              <input name="cryptoType" id="cryptoType" class="cryptoType" type="text" placeholder="<%= coins[i].slug %>" required />
-              <label for="quantity">Quantity</label>
-              <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="0" required />
-            </div> -->
-
             <!-- End Section Body -->
         <% } %>
 
-
-
-          <!-- Start Section Body -->
-          <section id="cs_body_transactions" class="row">
-
-            <div class="col-12 text-center">
-              <div class="body_title text-left">
-                Recent transaction
-              </div>
-              <div class="transactions_list">
-                <div class="row">
-                  <div class="col-2 justify-content-center align-self-center transactions_thumb">
-                    <i class="fa fa-long-arrow-down"></i>
-                  </div>
-                  <div class="col-6 text-left pl-2 justify-content-center align-self-center">
-                    <span class="transaction_title">
-                      Received
-                    </span>
-                    <span class="transaction_caption">
-                      Jan 7, 2023 01:55 PM
-                    </span>
-                  </div>
-                  <div class="col-4 justify-content-center align-self-center text-right transaction_amount">
-                    + 0.115 BTC
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-2 justify-content-center align-self-center transactions_thumb">
-                    <i class="fa fa-long-arrow-up"></i>
-                  </div>
-                  <div class="col-6 text-left pl-2 justify-content-center align-self-center">
-                    <span class="transaction_title">
-                      Sent
-                    </span>
-                    <span class="transaction_caption">
-                      Jan 8, 2023 03:14 PM
-                    </span>
-                  </div>
-                  <div class="col-4 justify-content-center align-self-center text-right transaction_amount amount_sent">
-                    - 0.032 BTC
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </section>
-          <!-- End Section Body -->
-
-        </div>
-
-
       </main>
-
     </div>
-
-    <pre><%= JSON.stringify(coins, null, 4) %></pre>
   </body>
 </html>
-
