@@ -44,8 +44,8 @@ app.get('/coinsPage', renderCoinsPage);
 // app.get('/api/printCryptoCurrencies', printCryptoCurrencies);
 
 // app.post('/api/buyCrypto', BuyCrypto);
-app.get('/buyCrypto', buyCrypto);
-app.post('/buyCrypto', buyCrypto);
+app.get('/coinsPage', buyCrypto);
+app.post('/coinsPage', buyCrypto);
 // app.post('/coins/buy/:slug', buyCrypto);
 
 // app.post('/api/sellCrypto', sellCrypto);
