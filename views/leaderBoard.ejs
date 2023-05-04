@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto-Sim (Bitcoin)</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/css/coins.css" />
+    <title>Profits</title>
     <script src="User.ts"></script>
     <style>
       body {
@@ -83,68 +83,13 @@
             <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
           </div>
         </div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
-          <select>
-            <option>Bitcoin (BTC)</option>
-            <option>Ethereum (ETH)</option>
-            <option>Tether (USDT)</option>
-            <option>BNB (BNB)</option>
-            <option>USD Coin (USDC)</option>
-          </select>
-        </div>
 
-        <div class="name">
-          <h4>Balance: $ <%= user.balance %></h4>
-        </div>
-
-        <% for (let i = 0; i < 5; i++) { %>
-          <div>
-            <section id="cs_header" class="row">
-
-              <div class="col-12">
-                <ul class="coinsContainer">
-                  <div class="name">
-                    <p><%= coins[i].name %> (<%= coins[i].symbol %>)</p>
-                  </div>
-                  <p class="price">Current Price: $ <%= coins[i].quote.USD.price.toFixed(5) %></p>
-                </ul>
-              </div>
-
-            </section>
-
-            <div class="col-6 text-center pr-2 form">
-              <form action="/buyCrypto" method="POST">
-                <label for="cryptoType"></label>
-                <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
-                <label for="quantity">Quantity</label>
-                <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
-                <section id="cs_action_btns" class="row">
-                  <button class="btn cs_btn_buy w-100" type="submit">
-                    <i class="fa fa-long-arrow-down"></i> BUY
-                  </button>
-                </section>
-              </form>
-            </div>
-
-            <div class="col-6 text-center pr-2 form">
-              <form action="/sellCrypto" method="POST">
-                <label for="cryptoType"></label>
-                <input name="cryptoType" id="cryptoType" class="cryptoType" type="hidden" value="<%= coins[i].slug %>" required />
-                <label for="quantity">Quantity</label>
-                <input name="quantity" id="quantity" class="quantity" type="number" max="100" min="1" required />
-                <section id="cs_action_btns" class="row">
-                  <button class="btn cs_btn_sell bg-success w-100" type="submit">
-                    <i class="fa fa-long-arrow-up"></i> SELL
-                  </button>
-                </section>
-              </form>
-            </div>
-
-        <% } %>
-
+        <ul>
+          <% for (let i = 0; i < users.length; i++) { %>
+            <li><%= users[i].email %> : $ <%= users[i].profit %></li>
+          <% } %>
+        </ul>
       </main>
-      <pre><%= JSON.stringify(coins, null, 4) %></pre>
     </div>
   </body>
 </html>

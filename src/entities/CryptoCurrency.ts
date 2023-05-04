@@ -7,7 +7,7 @@ export class CryptoCurrency {
   @PrimaryColumn()
   cryptoType: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   value: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })

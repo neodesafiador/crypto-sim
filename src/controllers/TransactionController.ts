@@ -43,8 +43,6 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
   }
 
   const totalCost = quantity * cryptocurrency.value;
-  console.log(totalCost);
-  console.log(user.balance);
 
   if (user.balance < totalCost) {
     res.sendStatus(400).json('User does not have enough money to buy');
@@ -64,7 +62,7 @@ async function buyCrypto(req: Request, res: Response): Promise<void> {
   }
 
   await addTransact(user, cryptoType, quantity);
-  // res.sendStatus(201);
+
   res.render('../views/buyCryptoPage', { cryptoType, quantity });
 }
 

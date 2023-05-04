@@ -13,16 +13,13 @@ export class User {
   @Column({ unique: true })
   passwordHash: string;
 
-  @Column({ default: false })
-  verifiedEmail: boolean;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1000 })
+  @Column({ default: 1000 })
   balance: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1000 })
+  @Column({ default: 1000 })
   prevBalance: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ default: 0 })
   profit: number;
 
   @OneToMany(() => Transaction, (transaction) => transaction.user, {
