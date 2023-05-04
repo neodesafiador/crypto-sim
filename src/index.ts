@@ -41,6 +41,10 @@ app.use(express.json());
 app.post('/register', validateNewUserBody, registerUser); // Create an account
 app.post('/login', validateLoginBody, logIn); // Log in to an account
 
+app.get('/crypto', (req, res) => {
+  res.redirect('/crypto');
+});
+
 app.get('/login', logOut);
 
 app.get('/coinsPage', renderCoinsPage);
@@ -53,6 +57,10 @@ app.post('/addBalance', addBalance);
 
 app.get('/profits', calcProfit);
 app.get('/leaderBoard', sortedProfit);
+
+app.get('/chart', (req, res) => {
+  res.render('../views/chartPage');
+});
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

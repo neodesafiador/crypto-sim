@@ -18,7 +18,7 @@
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Crypto-Sim</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/crypto">Crypto-Sim</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="/login">Log Out</a>
@@ -56,7 +56,7 @@
                   <line x1="12" y1="20" x2="12" y2="4"></line>
                   <line x1="6" y1="20" x2="6" y2="14"></line>
                 </svg>
-                Reports
+                Report
               </a>
             </li>
             <li class="nav-item">
@@ -68,6 +68,16 @@
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
                 Leader Board
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/chart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers align-text-bottom" aria-hidden="true">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                Analyze
               </a>
             </li>
           </ul>
@@ -86,7 +96,7 @@
 
         <ul>
           <% for (let i = 0; i < users.length; i++) { %>
-            <li><%= users[i].email %> : $ <%= users[i].profit %></li>
+            <p><%= i + 1 %>. <%= users[i].email %> : $ <%= users[i].profit %></p>
           <% } %>
         </ul>
       </main>
