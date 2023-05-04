@@ -28,7 +28,6 @@ async function getCryptoByType(cryptoType: string): Promise<CryptoCurrency> {
 async function getCurrenciesByUserId(userId: string): Promise<CryptoCurrency[]> {
   const crypto = await cryptoRepository
     .createQueryBuilder('cryptocurrency')
-    // .where('userId = :userId', { user: { userId } })
     .where({ user: { userId } })
     .leftJoin('cryptocurrency.user', 'user')
     .select(['cryptocurrency.cryptoType', 'cryptocurrency.value', 'user.userId'])
@@ -47,6 +46,19 @@ async function updateBuyCryptoBalance(crypto: CryptoCurrency): Promise<CryptoCur
   return updatedCrypto;
 }
 
-// TODO:function for value of crypto owned. ( cryto amount * value) can use for rank leaderboard, buy and sell.
+async function addCryptoCurrencies(name: string, price: number): Promise<void> {
+  try {
+    await addCrypto(name, price);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-export { allCryptoData, updateBuyCryptoBalance, getCryptoByType, addCrypto, getCurrenciesByUserId };
+export {
+  allCryptoData,
+  updateBuyCryptoBalance,
+  getCryptoByType,
+  addCrypto,
+  getCurrenciesByUserId,
+  addCryptoCurrencies,
+};

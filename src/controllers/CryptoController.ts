@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
-import { addCrypto, getCurrenciesByUserId } from '../models/CryptoModel';
-import { getUserByEmail } from '../models/UserModel';
+import { addCrypto, addCryptoCurrencies } from '../models/CryptoModel';
+import { getUserByID } from '../models/UserModel';
 
 async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   const { cryptoType, value } = req.body as CryptoAuth;
@@ -9,20 +9,10 @@ async function addCryptoCurrency(req: Request, res: Response): Promise<void> {
   try {
     await addCrypto(cryptoType, value);
     res.render(`addCryptoPage`);
-    // res.sendStatus(201);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
-  }
-}
-
-async function addCryptoCurrencies(name: string, price: number): Promise<void> {
-  try {
-    await addCrypto(name, price);
-    // res.sendStatus(201);
-  } catch (err) {
-    console.error(err);
   }
 }
 
@@ -48,10 +38,9 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
     // success
     const coinData = await response.json();
     const coins = coinData.data;
-    const { email } = req.body as AuthRequest;
-    const user = await getUserByEmail(email);
-    // console.log(coins);
-    res.render('coinsPage', { coins, user });
+
+    const { userId } = req.session.authenticatedUser;
+    const user = await getUserByID(userId);
 
     let name: string;
     let price: number;
@@ -61,17 +50,9 @@ async function renderCoinsPage(req: Request, res: Response): Promise<void> {
       price = coins[i].quote.USD.price;
       addCryptoCurrencies(name, price);
     }
+
+    res.render('coinsPage', { coins, user });
   }
 }
 
-async function renderBuyCrypto(req: Request, res: Response): Promise<void> {
-  // const { cryptoType } = req.params as CryptoTypeParam;
-  // const crypto = await getCryptoByType(cryptoType);
-  const { email } = req.body as AuthRequest;
-  const user = await getUserByEmail(email);
-  const crypto = await getCurrenciesByUserId(user.userId);
-
-  res.render('buyCryptoPage', { crypto });
-}
-
-export { addCryptoCurrency, renderCoinsPage, renderBuyCrypto };
+export { addCryptoCurrency, renderCoinsPage };

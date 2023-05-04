@@ -7,7 +7,7 @@ async function allUserData(): Promise<User[]> {
   const allUsers = await userRepository.find();
 
   return allUsers;
-} // getting back all of the data. make sure to take out the data for the project.
+}
 
 async function addUser(email: string, passwordHash: string): Promise<User> {
   // Create the new user object
@@ -15,9 +15,6 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
   newUser.email = email;
   newUser.passwordHash = passwordHash;
 
-  // Then save it to the database
-  // NOTES: We reassign to `newUser` so we can access
-  // NOTES: the fields the database autogenerates (the id & default columns)
   await userRepository.save(newUser);
 
   return newUser;
@@ -27,15 +24,8 @@ async function getAllUsers(): Promise<User[]> {
   return userRepository.find();
 }
 
-async function getAllUnverifiedUsers(): Promise<User[]> {
-  return userRepository.find({
-    select: { email: true, userId: true },
-    where: { verifiedEmail: false },
-  });
-}
-
 async function getUserByEmail(email: string): Promise<User | null> {
-  const user = await userRepository.findOne({ where: { email } });
+  const user = await userRepository.findOne({ where: { email }, relations: ['transactions'] });
 
   return user;
 }
@@ -82,15 +72,20 @@ async function calculateProfit(user: User): Promise<User> {
   return updatedUser;
 }
 
+async function sortProfit(): Promise<User[]> {
+  const users = await userRepository.find({ order: { profit: 'DESC' } });
+  return users;
+}
+
 export {
   allUserData,
   addUser,
   getUserByEmail,
   getAllUsers,
-  getAllUnverifiedUsers,
   updateBuyUserBalance,
   getUserByID,
   updateSellUserBalance,
   updateBalance,
   calculateProfit,
+  sortProfit,
 };

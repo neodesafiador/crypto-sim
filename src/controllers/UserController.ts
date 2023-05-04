@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
-// import axios from 'axios';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail, updateBalance, calculateProfit } from '../models/UserModel';
+import {
+  addUser,
+  getUserByEmail,
+  getUserByID,
+  updateBalance,
+  calculateProfit,
+  sortProfit,
+} from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
@@ -13,15 +19,12 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     await addUser(email, passwordHash);
-    // res.sendStatus(201);
-    res.redirect(`crypto`);
+    res.redirect('/login');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
   }
-
-  res.redirect('/login');
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
@@ -71,7 +74,6 @@ async function logIn(req: Request, res: Response): Promise<void> {
     email: user.email,
   };
   req.session.isLoggedIn = true;
-  // res.sendStatus(201);
   res.redirect(`crypto`);
 }
 
@@ -82,9 +84,8 @@ async function logOut(req: Request, res: Response): Promise<void> {
 }
 
 async function addBalance(req: Request, res: Response): Promise<void> {
-  const { email } = req.body as AuthRequest;
-
-  const user = await getUserByEmail(email);
+  const { userId } = req.session.authenticatedUser;
+  const user = await getUserByID(userId);
 
   if (!user) {
     res.sendStatus(404); // 404 Not Found (403 Forbidden would also make a lot of sense here)
@@ -97,9 +98,8 @@ async function addBalance(req: Request, res: Response): Promise<void> {
 }
 
 async function calcProfit(req: Request, res: Response): Promise<void> {
-  const { email } = req.body as AuthRequest;
-
-  const user = await getUserByEmail(email);
+  const { userId } = req.session.authenticatedUser;
+  const user = await getUserByID(userId);
 
   if (!user) {
     res.sendStatus(404); // 404 Not Found (403 Forbidden would also make a lot of sense here)
@@ -111,4 +111,9 @@ async function calcProfit(req: Request, res: Response): Promise<void> {
   res.render('profitPage', { user });
 }
 
-export { registerUser, logIn, logOut, addBalance, calcProfit };
+async function sortedProfit(req: Request, res: Response): Promise<void> {
+  const users = await sortProfit();
+  res.render('leaderBoard', { users });
+}
+
+export { registerUser, logIn, logOut, addBalance, calcProfit, sortedProfit };

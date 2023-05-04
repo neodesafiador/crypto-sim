@@ -35,7 +35,6 @@ async function userHasTransactionForCryptocurrency(
     .andWhere('cryptocurrency.cryptoType = :cryptoType', { cryptoType })
     .getExists();
 
-  console.log(transactionExists);
   return transactionExists;
 }
 
@@ -54,21 +53,6 @@ async function userHasCryptoAmount(
     .getExists();
 
   return cryptoAmountExists;
-}
-
-async function getTransactionById(transactionId: string): Promise<Transaction | null> {
-  return await transactionRepository
-    .createQueryBuilder('transaction')
-    .where({ where: { transactionId } })
-    .leftJoin('transactions.user', 'user')
-    .select([
-      'transaction.transactionId',
-      'transaction.amount',
-      'transaction.boughtOn',
-      'user.userId',
-      'user.email',
-    ])
-    .getOne();
 }
 
 async function updateBuyTransaction(
@@ -105,23 +89,9 @@ async function updateSellTransaction(
   await transactionRepository.save(transaction);
 }
 
-// async function getTransactionByUser(user: User, cryptocurrency: CryptoCurrency): Promise<string> {
-//   console.log(user);
-//   console.log(cryptocurrency);
-//   // const transaction = await transactionRepository.findOne({ where: { cryptocurrency, user } });
-//   const transactionID = Transaction.
-//   for(const i of user.transactions) {
-//     if()
-//   }
-//   const transaction = await transactionRepository.findOne({ where: { cryptocurrency, user } });
-
-//   return transaction.transactionId;
-// }
-
 export {
   addTransact,
   allTransactionData,
-  getTransactionById,
   updateBuyTransaction,
   updateSellTransaction,
   userHasTransactionForCryptocurrency,
