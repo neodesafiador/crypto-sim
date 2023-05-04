@@ -96,12 +96,11 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
           <h1 class="h2">Dashboard</h1>
           <select>
-            <option>Bitcoin (BTC)</option>
-            <option>Ethereum (ETH)</option>
-            <option>Tether (USDT)</option>
-            <option>BNB (BNB)</option>
-            <option>USD Coin (USDC)</option>
+            <% for (let i = 0; i < 5; i++) { %>
+              <option><%= coins[i].name %> (<%= coins[i].symbol %>)</option>
+            <% } %>
           </select>
+
         </div>
 
         <div class="name">
