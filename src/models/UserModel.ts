@@ -74,7 +74,12 @@ async function calculateProfit(user: User): Promise<User> {
   return updatedUser;
 }
 
-async function sortProfit(): Promise<User[]> {
+async function sortProfit(user: User): Promise<User[]> {
+  const updatedUser = user;
+  updatedUser.profit = user.balance - user.prevBalance;
+
+  await userRepository.save(updatedUser);
+
   const users = await userRepository.find({ order: { profit: 'DESC' } });
   return users;
 }

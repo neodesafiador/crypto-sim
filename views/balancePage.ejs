@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Crypto-Sim (Bitcoin)</title>
+  <title>Deposit</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
   <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
@@ -90,20 +90,17 @@
     </div>
 
     <div class="name">
-      <p>Balance: $ <%= user.balance %></p>
+      <h3><p>Balance: $ <%= user.balance %></p></h3>
+      <h6><p>(NOTE: Deposit cannot be made if less than $1000)</p></h6>
     </div>
 
     <form action="/addBalance" method="post">
       <button>Add $100</button>
     </form>
 
-
-
-
   </main>
 
 </div>
-
 
 </body>
 

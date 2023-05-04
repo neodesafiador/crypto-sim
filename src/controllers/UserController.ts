@@ -112,7 +112,15 @@ async function calcProfit(req: Request, res: Response): Promise<void> {
 }
 
 async function sortedProfit(req: Request, res: Response): Promise<void> {
-  const users = await sortProfit();
+  const { userId } = req.session.authenticatedUser;
+  const user = await getUserByID(userId);
+
+  if (!user) {
+    res.sendStatus(404); // 404 Not Found (403 Forbidden would also make a lot of sense here)
+    return;
+  }
+
+  const users = await sortProfit(user);
   res.render('leaderBoard', { users });
 }
 
