@@ -13,10 +13,10 @@ export class User {
   @Column({ unique: true })
   passwordHash: string;
 
-  @Column({ default: 1000 })
+  @Column({ default: 3000 })
   balance: number;
 
-  @Column({ default: 1000 })
+  @Column({ default: 3000 })
   prevBalance: number;
 
   @Column({ default: 0 })
