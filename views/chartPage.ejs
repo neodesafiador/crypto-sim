@@ -91,13 +91,17 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <div id="dataCoin" dataCoin="<%= JSON.stringify(dataCoin) %>"></div>
+
         <script>
           const showLegend = true;
-          const dataBitcoin = [0.11200362, 2.17816566, 0.21824429, 4.69453833, 29.73438898, 23.73881347];
-          const dataEthereum = [-0.03095545, 1.81304502, 0.66475504, 4.7901159, 21.10218829, 15.83240582];
-          const dataTether = [0.00134467, -0.00828513, 0.00985563, 0.03232223, 0.02396381, 0.0257715];
-          const dataBNB = [-0.25540352, 0.75743442, -1.64635974, 5.06879439, 12.18656271, 0.89378582];
-          const dataUSDC = [0.01417184, 0.0066638, 0.01495701, 0.03863995, 0.01696288, 0.02631613];
+
+          const dataCoin = JSON.parse(document.getElementById('dataCoin').getAttribute('dataCoin'));
+          const dataBitcoin = dataCoin[0];
+          const dataEthereum = dataCoin[1];
+          const dataTether = dataCoin[2];
+          const dataBNB = dataCoin[3];
+          const dataUSDC = dataCoin[4];
           const labels = [
             'change_1h',
             'change_24h',

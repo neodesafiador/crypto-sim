@@ -12,7 +12,7 @@ import {
   calcProfit,
   sortedProfit,
 } from './controllers/UserController';
-import { renderCoinsPage } from './controllers/CryptoController';
+import { renderCoinsPage, renderChartPage } from './controllers/CryptoController';
 import { buyCrypto, sellCrypto } from './controllers/TransactionController';
 import { validateNewUserBody, validateLoginBody } from './validators/authValidator';
 
@@ -58,9 +58,11 @@ app.post('/addBalance', addBalance);
 app.get('/profits', calcProfit);
 app.get('/leaderBoard', sortedProfit);
 
-app.get('/chart', (req, res) => {
-  res.render('../views/chartPage');
-});
+// app.get('/chart', (req, res) => {
+//   res.render('../views/chartPage');
+// });
+
+app.get('/chart', renderChartPage);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
